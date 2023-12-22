@@ -1,7 +1,29 @@
-DROP DATABASE IF EXISTS proparaskeuastiko;
-CREATE DATABASE IF NOT EXISTS proparaskeuastiko;
+#DROP DATABASE IF EXISTS proparaskeuastiko;
+#CREATE DATABASE IF NOT EXISTS proparaskeuastiko;
 USE proparaskeuastiko;
 #Drop database proparaskeuastiko;
+
+-- Tables with constraints
+DROP TABLE IF EXISTS applications_history;
+DROP TABLE IF EXISTS requires;
+DROP TABLE IF EXISTS applies;
+DROP TABLE IF EXISTS project;
+DROP TABLE IF EXISTS langueges;
+DROP TABLE IF EXISTS has_degree;
+DROP TABLE IF EXISTS job;
+DROP TABLE IF EXISTS employee;
+
+
+
+-- Tables with no constraints
+DROP TABLE IF EXISTS dba;
+DROP TABLE IF EXISTS degree;
+DROP TABLE IF EXISTS subject;
+DROP TABLE IF EXISTS log;
+DROP TABLE IF EXISTS evaluator;
+DROP TABLE IF EXISTS etaireia;
+DROP TABLE IF EXISTS user;
+
 
 
 CREATE TABLE IF NOT EXISTS etaireia(

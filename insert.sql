@@ -144,7 +144,7 @@ INSERT INTO dba (username, start_date, end_date) VALUES
 # select * from dba;
 
 
-LOAD DATA INFILE "C:\\ProgramData\\MySQL\\MySQL Server 8.0\\Uploads\\myFile0.csv" INTO TABLE applications_history
+LOAD DATA INFILE "myFile0.csv" INTO TABLE applications_history
 FIELDS TERMINATED BY ','
 OPTIONALLY ENCLOSED BY '"'
 LINES TERMINATED BY '\r\n'
