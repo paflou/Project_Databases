@@ -1,5 +1,5 @@
 #DROP DATABASE IF EXISTS proparaskeuastiko;
-#CREATE DATABASE IF NOT EXISTS proparaskeuastiko;
+CREATE DATABASE IF NOT EXISTS proparaskeuastiko;
 USE proparaskeuastiko;
 #Drop database proparaskeuastiko;
 

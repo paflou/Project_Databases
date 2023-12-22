@@ -1,3 +1,14 @@
+-- Set minimum password length to 4 characters
+SET GLOBAL validate_password.length = 4;
+SET GLOBAL validate_password.mixed_case_count = 0;
+
+-- Set password policy to require at least 1 uppercase letter
+SET GLOBAL validate_password.policy = 'LOW';
+SHOW VARIABLES LIKE 'validate_password%';
+
+-- Disable special character requirements
+SET GLOBAL validate_password.special_char_count = 0;
+
 -- Drop users if they exist
 DROP USER IF EXISTS 'mark_anderson'@'localhost';
 DROP USER IF EXISTS 'laura_white'@'localhost';
