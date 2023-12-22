@@ -17,7 +17,30 @@ END $
 DELIMITER ;
 
 
-
+DROP TRIGGER IF EXISTS Application_Status;
+DELIMITER $
+CREATE TRIGGER Application_Status
+BEFORE INSERT ON applies
+FOR EACH ROW
+BEGIN
+	DECLARE applications int;
+    DECLARE job_start date;
+    
+    select count(*) into applications
+    from applies
+    where cand_usrname = new.cand_usrname;
+    
+    select start_date into job_start
+    from job
+    where job.id = new.job_id;
+    
+	IF(applications >= 3 OR DATEDIFF(start_date, DATE( NOW() ) ) > 15)
+    THEN
+		SIGNAL SQLSTATE '45000'        
+		SET MESSAGE_TEXT = 'Employee cannot apply for this position';
+	END IF;
+END $
+DELIMITER ;
 
 
 

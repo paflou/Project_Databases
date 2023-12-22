@@ -151,6 +151,7 @@ ON DELETE CASCADE ON UPDATE CASCADE
 CREATE TABLE IF NOT EXISTS applies(
 cand_usrname varchar(30) NOT NULL,
 job_id int(11) NOT NULL,
+application_status ENUM ('active', 'cancelled', 'completed') DEFAULT 'active',
 
 PRIMARY KEY(cand_usrname, job_id),
 CONSTRAINT applies_con_1
@@ -196,7 +197,7 @@ evaluator_1 varchar(30) NOT NULL,
 evaluator_2 varchar(30) NOT NULL,
 employee varchar(30) NOT NULL,
 job_id int(11) 	NOT NULL,
-application_condition ENUM ('active', 'canceled', 'finished'),		#την κατάσταση (ολοκληρωμένη) ???
+application_status ENUM ('active', 'cancelled', 'completed'),		#την κατάσταση (ολοκληρωμένη) ???
 grade int DEFAULT '0' NOT NULL,
 
 PRIMARY KEY (evaluator_1,evaluator_2,employee,job_id)
