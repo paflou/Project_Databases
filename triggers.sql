@@ -17,21 +17,11 @@ END $
 DELIMITER ;
 
 
-DELIMITER $
-CREATE TRIGGER subject_trigger
-BEFORE INSERT ON subject
-FOR EACH ROW
-BEGIN
-DECLARE x int;				#x =0 tote start_Date - curdate < 15
-DECLARE Start_Date date;		#Sart_Date eiani to start _date poy pairno apo ton pinaka job
 
-SELECT j.start_date
-INTO Start_Date
-FROM applies a
-LEFT JOIN job j ON a.job_id = j.id
-WHERE a.cand_usrname = NEW.cand_usrname;
 
-IF DATE_ADD ( Start_Date, INTERVAL 15
+
+
+
 
 
 
