@@ -8,7 +8,7 @@ DROP TABLE IF EXISTS applications_history;
 DROP TABLE IF EXISTS requires;
 DROP TABLE IF EXISTS applies;
 DROP TABLE IF EXISTS project;
-DROP TABLE IF EXISTS langueges;
+DROP TABLE IF EXISTS languages;
 DROP TABLE IF EXISTS has_degree;
 DROP TABLE IF EXISTS job;
 DROP TABLE IF EXISTS employee;
@@ -81,12 +81,12 @@ REFERENCES user(username)
 ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS langueges(
+CREATE TABLE IF NOT EXISTS languages(
 candid varchar(30) DEFAULT 'unknown' NOT NULL,
 lang set('EN', 'FR', 'SP', 'GE', 'CH', 'GR') ,
 
 PRIMARY KEY (candid,lang),
-CONSTRAINT langueges_con
+CONSTRAINT languages_con
 FOREIGN KEY(candid)
 REFERENCES employee(username)
 ON DELETE CASCADE ON UPDATE CASCADE

@@ -53,7 +53,7 @@ INSERT INTO employee (username, bio, sistatikes, certificates) VALUES
 ('emily_wilson', 'Passionate educator fostering a positive learning environment.', 'Teacher', 'Teaching Certification');
 # select * from employee;
 
-INSERT INTO langueges (candid, lang) VALUES
+INSERT INTO languages (candid, lang) VALUES
 ('mark_smith', 'EN,FR'),
 ('lisa_jones', 'SP'),
 ('kevin_davis', 'EN,CH'),
