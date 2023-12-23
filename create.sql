@@ -216,7 +216,7 @@ REFERENCES user(username)
 
 CREATE TABLE IF NOT EXISTS log(
 change_id int(11) 	NOT NULL AUTO_INCREMENT,
-changes ENUM('INSERT', 'UPDATE', 'DELETE'),		/allagh se kefalaia
+changes ENUM('INSERT', 'UPDATE', 'DELETE'),		/*allagh se kefalaia
 changed_tables ENUM('job', 'user', 'degree'),
 change_time datetime NOT NULL,
 username varchar(30) NOT NULL,
