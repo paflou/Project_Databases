@@ -33,14 +33,5 @@ GRANT ALL PRIVILEGES ON proparaskeuastiko.* TO 'natalie_green'@'localhost' WITH 
 GRANT ALL PRIVILEGES ON proparaskeuastiko.* TO 'michael_turner'@'localhost' WITH GRANT OPTION;
 GRANT ALL PRIVILEGES ON proparaskeuastiko.* TO 'olivia_carter'@'localhost' WITH GRANT OPTION;
 
--- Grant SUPER privilege to users		# den eimai sigouros an xreiazetai auto. to ebala sthn prospateia mou na kanv ta triggers gia to 3.1.4.1. na doulepsoun
-GRANT SUPER ON *.* TO 'mark_anderson'@'localhost';
-GRANT SUPER ON *.* TO 'laura_white'@'localhost';
-GRANT SUPER ON *.* TO 'kevin_martin'@'localhost';
-GRANT SUPER ON *.* TO 'natalie_green'@'localhost';
-GRANT SUPER ON *.* TO 'michael_turner'@'localhost';
-GRANT SUPER ON *.* TO 'olivia_carter'@'localhost';
-
-
 -- Flush privileges
 FLUSH PRIVILEGES;

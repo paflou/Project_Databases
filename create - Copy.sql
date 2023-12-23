@@ -197,7 +197,7 @@ evaluator_1 varchar(30) NOT NULL,
 evaluator_2 varchar(30) NOT NULL,
 employee varchar(30) NOT NULL,
 job_id int(11) 	NOT NULL,
-application_status ENUM ('active', 'canceled', 'finished'),		#την κατάσταση (ολοκληρωμένη) ???  orthografiko gia na tairiazei me csv
+application_status ENUM ('active', 'cancelled', 'completed'),		#την κατάσταση (ολοκληρωμένη) ???
 grade int DEFAULT '0' NOT NULL,
 
 PRIMARY KEY (evaluator_1,evaluator_2,employee,job_id)
@@ -216,7 +216,7 @@ REFERENCES user(username)
 
 CREATE TABLE IF NOT EXISTS log(
 change_id int(11) 	NOT NULL AUTO_INCREMENT,
-changes ENUM('INSERT', 'UPDATE', 'DELETE'),		/allagh se kefalaia
+changes ENUM('insertion', 'update', 'deletion'),
 changed_tables ENUM('job', 'user', 'degree'),
 change_time datetime NOT NULL,
 username varchar(30) NOT NULL,
