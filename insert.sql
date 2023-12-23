@@ -148,23 +148,28 @@ INSERT INTO job VALUE
 (DEFAULT,'2023-07-12', 58000.00, 'Sales Representative', 'Arizona', 'Ancingingen', '2023-07-05 09:45:00', '2023-09-25');
 
 
-INSERT INTO applies (cand_usrname, job_id) VALUES
-('mark_smith', 1),
-('lisa_jones', 2),
-('kevin_davis', 3),
-('natalie_white', 1),
-('steve_martin', 2),
-('emily_wilson', 1);
+INSERT INTO applies VALUES
+('mark_smith', 1, DEFAULT),
+('lisa_jones', 2, DEFAULT),
+('kevin_davis', 3, DEFAULT),
+('natalie_white', 1, DEFAULT),
+('steve_martin', 2, DEFAULT),
+('emily_wilson', 1, DEFAULT);
 # select * from applies;
 
-INSERT INTO applies VALUE
-('Tord2003',1),
-('Pilve1984',2),
-('Yeepy',3),
-('Alte1970',4),
-('Hunitesige',5),
-('Fortume',6);
+INSERT INTO applies VALUES
+('Tord2003',1, DEFAULT),
+('Pilve1984',2, DEFAULT),
+('Yeepy',3, DEFAULT),
+('Alte1970',4, DEFAULT),
+('Hunitesige',5, DEFAULT),
+('Fortume',6, DEFAULT);
 
+-- TEST FOR TRIGGER 3.1.2.1
+ #INSERT INTO applies VALUES
+#('Tord2003',2, DEFAULT),
+#('Tord2003',3, DEFAULT),
+#('Tord2003',4, DEFAULT);
 
 INSERT INTO degree (titlos, idryma, bathmida) VALUES
 ('Computer Science and Math', 'University of Athens', 'BSc'),

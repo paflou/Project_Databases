@@ -152,7 +152,7 @@ CREATE TABLE IF NOT EXISTS applies(
 cand_usrname varchar(30) NOT NULL,
 job_id int(11) NOT NULL,
 application_status ENUM ('active', 'cancelled', 'completed') DEFAULT 'active',
-
+	
 PRIMARY KEY(cand_usrname, job_id),
 CONSTRAINT applies_con_1
 FOREIGN KEY (cand_usrname)

@@ -30,18 +30,17 @@ BEGIN
     from applies
     where cand_usrname = new.cand_usrname;
     
-    select start_date into job_start
+    select job.start_date into job_start
     from job
     where job.id = new.job_id;
     
-	IF(applications >= 3 OR DATEDIFF(start_date, DATE( NOW() ) ) > 15)
+	IF(applications >= 3 OR DATEDIFF(job_start, DATE( NOW() ) ) > 15)
     THEN
 		SIGNAL SQLSTATE '45000'        
 		SET MESSAGE_TEXT = 'Employee cannot apply for this position';
 	END IF;
 END $
 DELIMITER ;
-
 
 
 
