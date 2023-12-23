@@ -44,17 +44,15 @@ DELIMITER ;
 
 				/* ta triggers gia to erotima 3.1.4.1.*/
 
-SET @context_info = SUBSTRING_INDEX(CURRENT_USER(), '@', 1);
+-- SET @context_info = SUBSTRING_INDEX(CURRENT_USER(), '@', 1);
 DELIMITER $
 CREATE TRIGGER job_trigger_1
 AFTER INSERT ON job
 FOR EACH ROW
 BEGIN
 DECLARE t_username VARCHAR(30);
-    
-SET t_username = @context_info;
+SET t_username = SUBSTRING_INDEX(USER(),'@',1);
 
--- Now t_username contains the extracted username
 
 IF t_username <> 'root' THEN
 INSERT INTO log (changes, changed_tables, change_time, username)
@@ -71,7 +69,7 @@ FOR EACH ROW
 BEGIN
 DECLARE t_username VARCHAR(30);
     
-SET t_username = @context_info;
+SET t_username = SUBSTRING_INDEX(USER(),'@',1);
 
 -- Now t_username contains the extracted username
 
@@ -90,7 +88,7 @@ FOR EACH ROW
 BEGIN
 DECLARE t_username VARCHAR(30);
     
-SET t_username = @context_info;
+SET t_username = SUBSTRING_INDEX(USER(),'@',1);
 
 -- Now t_username contains the extracted username
 
@@ -109,7 +107,7 @@ FOR EACH ROW
 BEGIN
 DECLARE t_username VARCHAR(30);
     
-SET t_username = @context_info;
+SET t_username = SUBSTRING_INDEX(USER(),'@',1);
 
 -- Now t_username contains the extracted username
 
@@ -128,7 +126,7 @@ FOR EACH ROW
 BEGIN
 DECLARE t_username VARCHAR(30);
     
-SET t_username = @context_info;
+SET t_username = SUBSTRING_INDEX(USER(),'@',1);
 
 -- Now t_username contains the extracted username
 
@@ -147,7 +145,7 @@ FOR EACH ROW
 BEGIN
 DECLARE t_username VARCHAR(30);
     
-SET t_username = @context_info;
+SET t_username = SUBSTRING_INDEX(USER(),'@',1);
 
 -- Now t_username contains the extracted username
 
@@ -166,7 +164,7 @@ FOR EACH ROW
 BEGIN
 DECLARE t_username VARCHAR(30);
     
-SET t_username = @context_info;
+SET t_username = SUBSTRING_INDEX(USER(),'@',1);
 
 -- Now t_username contains the extracted username
 
@@ -185,7 +183,7 @@ FOR EACH ROW
 BEGIN
 DECLARE t_username VARCHAR(30);
     
-SET t_username = @context_info;
+SET t_username = SUBSTRING_INDEX(USER(),'@',1);
 
 -- Now t_username contains the extracted username
 
@@ -204,7 +202,7 @@ FOR EACH ROW
 BEGIN
 DECLARE t_username VARCHAR(30);
     
-SET t_username = @context_info;
+SET t_username = SUBSTRING_INDEX(USER(),'@',1);
 
 -- Now t_username contains the extracted username
 
@@ -215,13 +213,3 @@ END IF;
 
 END $
 DELIMITER ;
-
-
-
-                
-
-
-
-
-
-
