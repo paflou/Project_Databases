@@ -1,3 +1,17 @@
+DROP TRIGGER IF EXISTS project_trigger;
+DROP TRIGGER IF EXISTS Application_Status;
+DROP TRIGGER IF EXISTS job_trigger_1;
+DROP TRIGGER IF EXISTS job_trigger_2;
+DROP TRIGGER IF EXISTS job_trigger_3;
+DROP TRIGGER IF EXISTS user_trigger_1;
+DROP TRIGGER IF EXISTS user_trigger_2;
+DROP TRIGGER IF EXISTS user_trigger_3;
+DROP TRIGGER IF EXISTS degree_trigger_1;
+DROP TRIGGER IF EXISTS degree_trigger_2;
+DROP TRIGGER IF EXISTS degree_trigger_3;
+DROP TRIGGER IF EXISTS evaluation;
+
+
 DELIMITER $
 CREATE TRIGGER project_trigger
 BEFORE INSERT ON project
@@ -17,7 +31,6 @@ END $
 DELIMITER ;
 
 
-DROP TRIGGER IF EXISTS Application_Status;
 DELIMITER $
 CREATE TRIGGER Application_Status
 BEFORE INSERT ON applies
@@ -44,7 +57,6 @@ DELIMITER ;
 
 				/* ta triggers gia to erotima 3.1.4.1.*/
 
--- SET @context_info = SUBSTRING_INDEX(CURRENT_USER(), '@', 1);
 DELIMITER $
 CREATE TRIGGER job_trigger_1
 AFTER INSERT ON job
@@ -215,27 +227,30 @@ END $
 DELIMITER ;
 
 -- 3.1.2.2 ---------------------------------------------------------------
-DROP TRIGGER IF EXISTS evaluation;
 DELIMITER $
 CREATE TRIGGER evaluation
 BEFORE INSERT ON application_eval
 FOR EACH ROW
 BEGIN
-	DECLARE state varchar(30);
-    
-	select application_status into state
-	from applies
-	where cand_usrname = new.employee;
+	DECLARE state ENUM ('active', 'canceled', 'finished');
+    DECLARE grade1_result INT;
+	DECLARE grade2_result INT;
+        
+
 	
-	if(state != 'canceled')
+	if(new.application_status <> 'canceled')
 	THEN
 		IF(new.grade1 = 0)
         THEN
-			CALL auto_grading(new.employee,new.grade1);
+			CALL auto_grading(new.employee,grade1_result);
+            set NEW.grade1 = grade1_result;
         END IF;
+        
 		IF(new.grade2 = 0)
         THEN
-			CALL auto_grading(new.employee,new.grade2);
+			CALL auto_grading(new.employee,grade2_result);
+            set new.grade2 = grade2_result;
         END IF;
 	END IF;
-END 
+END$
+DELIMITER ;

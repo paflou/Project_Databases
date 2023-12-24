@@ -3,46 +3,37 @@ DELIMITER $
 CREATE PROCEDURE auto_grading(
 candidate varchar(30), OUT grade int)
 BEGIN
-	DECLARE flag INT;
-    DECLARE candidate varchar(30);
-    DECLARE bathmida varchar(30);
+	DECLARE level enum('BSc', 'MSc', 'PhD');
     DECLARE project_num INT;
     DECLARE languages INT;
     
-	DECLARE bcursor CURSOR FOR
-    SELECT bathmida FROM degree
+
+    SELECT bathmida INTO level
+    FROM degree
     inner join has_degree ON titlos = degr_title AND degr_idryma = idryma
     WHERE cand_usrname = candidate;
 	
-    DECLARE CONTINUE HANDLER FOR NOT FOUND SET flag=1;
-    set flag=0;
-    
-    OPEN bcursor;
     set grade = 0;
     
-	WHILE (flag = 0)
-    DO
-		FETCH bcursor INTO bathmida;
-        
-        SET grade =
-		CASE
-			WHEN bathmida = 'BSc' THEN grade + 1
-			WHEN bathmida = 'MSc' THEN grade + 2
-			ELSE grade + 3
-		END;
-    END WHILE;
-    CLOSE bcursor;
+    SET grade =
+	CASE
+		WHEN level = 'BSc' THEN 1
+		WHEN level = 'MSc' THEN 2
+		ELSE 3
+	END;
+
     
 	select MAX(num) INTO project_num
     FROM project WHERE candid = candidate;
     
-    select count(*) INTO languages
-    FROM languages
-    WHERE candid = candidate;
+    
+	SELECT LENGTH(lang) - LENGTH(REPLACE(lang, ',', '')) + 1 INTO languages
+	FROM languages
+	WHERE candid = candidate;
     
 	set grade = grade + project_num;
 
-    IF(languages IS NOT NULL)
+    IF(languages >= 2)
 	THEN
 		set grade = grade + 1;
     END IF;
@@ -51,6 +42,11 @@ END$
 DELIMITER ;
 
 
+
+/*
+CALL auto_grading('mark_smith',@res);
+select @res;
+*//*
 -- 3.1.2.2--
 DROP PROCEDURE IF EXISTS grade_applications;
 DELIMITER $
@@ -87,4 +83,4 @@ BEGIN
 	END WHILE;
     CLOSE bcursor;
 END$
-DELIMITER ;
+DELIMITER ;*/
