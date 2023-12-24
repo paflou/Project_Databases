@@ -213,3 +213,29 @@ END IF;
 
 END $
 DELIMITER ;
+
+-- 3.1.2.2 ---------------------------------------------------------------
+DROP TRIGGER IF EXISTS evaluation;
+DELIMITER $
+CREATE TRIGGER evaluation
+BEFORE INSERT ON application_eval
+FOR EACH ROW
+BEGIN
+	DECLARE state varchar(30);
+    
+	select application_status into state
+	from applies
+	where cand_usrname = new.employee;
+	
+	if(state != 'canceled')
+	THEN
+		IF(new.grade1 = 0)
+        THEN
+			CALL auto_grading(new.employee,new.grade1);
+        END IF;
+		IF(new.grade2 = 0)
+        THEN
+			CALL auto_grading(new.employee,new.grade2);
+        END IF;
+	END IF;
+END 

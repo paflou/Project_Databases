@@ -72,22 +72,23 @@ INSERT INTO evaluator VALUE
 ('DreamyCoder',11,'888888888');
 
 
-INSERT INTO employee (username, bio, sistatikes, certificates) VALUES
-('mark_smith', 'Experienced IT professional with a focus on technical support.', 'IT Support Specialist', 'CompTIA A+'),
-('lisa_jones', 'Dedicated finance professional with expertise in financial analysis.', 'Financial Analyst', 'CFA Level 1'),
-('kevin_davis', 'Detail-oriented individual with skills in manufacturing processes.', 'Production Coordinator', 'Six Sigma Green Belt'),
-('natalie_white', 'Compassionate healthcare professional committed to patient care.', 'Registered Nurse', 'BLS, ACLS'),
-('steve_martin', 'Creative marketing specialist with a proven track record of successful campaigns.', 'Marketing Specialist', 'Google Ads Certification'),
-('emily_wilson', 'Passionate educator fostering a positive learning environment.', 'Teacher', 'Teaching Certification');
-# select * from employee;
+
+INSERT INTO employee (username, bio, diakriseis, certificates) VALUES
+('mark_smith', 'Experienced IT professional with a focus on technical support.', 'mark_smith_diakriseis.pdf', 'mark_smith_cert.pdf'),
+('lisa_jones', 'Dedicated finance professional with expertise in financial analysis.', 'lisa_jones_diakriseis.pdf', 'lisa_jones_cert.pdf'),
+('kevin_davis', 'Detail-oriented individual with skills in manufacturing processes.', 'kevin_davis_diakriseis.pdf', 'kevin_davis_cert.pdf'),
+('natalie_white', 'Compassionate healthcare professional committed to patient care.', 'natalie_white_diakriseis.pdf', 'natalie_white_cert.pdf'),
+('steve_martin', 'Creative marketing specialist with a proven track record of successful campaigns.', 'steve_martin_diakriseis.pdf', 'steve_martin_cert.pdf'),
+('emily_wilson', 'Passionate educator fostering a positive learning environment.', 'emily_wilson_diakriseis.pdf', 'emily_wilson_cert.pdf');
+
 
 INSERT INTO employee VALUES
-('Fortume','Software Engineer','John Smith','Certified in Software Engineering'),
-('Yeepy','Digital Marketer','Jane Doe','Certified in Digital Marketing'),
-('Pilve1984','Graphic Designer','Alex Johnson','Certified in Graphic Design'),
-('Tord2003','UI/UX Designer','Emily Williams','Certified in UI/UX Design'),
-('Alte1970','Front-end Developer','Michael Brown','Certified in JavaScript Frameworks'),
-('Hunitesige','Web Developer','Sarah Miller','Certified in Full Stack Development');
+('Fortume','Software Engineer','Fortume_diakriseis.pdf','Fortume_cert.pdf'),
+('Yeepy','Digital Marketer','Yeepy_diakriseis.pdf','Yeepy_cert.pdf'),
+('Pilve1984','Graphic Designer','Pilve1984_diakriseis.pdf','Pilve1984_cert.pdf'),
+('Tord2003','UI/UX Designer','Tord2003_diakriseis.pdf','Tord2003_cert.pdf'),
+('Alte1970','Front-end Developer','Alte1970_diakriseis.pdf','Alte1970_cert.pdf'),
+('Hunitesige','Web Developer','Hunitesige_diakriseis.pdf','Hunitesige_cert.pdf');
 
 INSERT INTO languages (candid, lang) VALUES
 ('mark_smith', 'EN,FR'),
@@ -265,6 +266,24 @@ INSERT INTO dba (username, start_date, end_date) VALUES
 ('olivia_carter', '2023-12-15', NULL);
 # select * from dba;
 
+INSERT INTO application_eval (evaluator_1, evaluator_2, employee, job_id, application_status)
+VALUES
+('john_doe', 'alice_smith', 'mark_smith', 1, 'active'),
+('john_doe', 'bob_jones', 'lisa_jones', 1, 'active'),
+('alice_smith', 'bob_jones', 'kevin_davis', 1, 'active'),
+('bob_jones', 'emma_wilson', 'natalie_white', 2, 'active'),
+('emma_wilson', 'alex_miller', 'steve_martin', 2, 'active'),
+('alex_miller', 'sara_jackson', 'emily_wilson', 2, 'active'),
+('john_doe', 'alice_smith', 'Fortume', 3, 'active'),
+('alice_smith', 'bob_jones', 'Yeepy', 3, 'active'),
+('bob_jones', 'emma_wilson', 'Pilve1984', 3, 'active'),
+('emma_wilson', 'alex_miller', 'Tord2003', 4, 'active'),
+('alex_miller', 'sara_jackson', 'Alte1970', 4, 'canceled'),
+('bob_jones', 'emma_wilson', 'Hunitesige', 4, 'finished'),
+('alice_smith', 'bob_jones', 'kevin_davis', 5, 'active'),
+('bob_jones', 'emma_wilson', 'steve_martin', 5, 'canceled'),
+('john_doe', 'alice_smith', 'mark_smith', 5, 'finished');
+
 
 LOAD DATA INFILE "myFile0.csv" INTO TABLE applications_history
 FIELDS TERMINATED BY ','
@@ -273,3 +292,4 @@ LINES TERMINATED BY '\r\n'
 IGNORE 1 ROWS;
 
 #select * from applications_history;
+select * from application_eval;
