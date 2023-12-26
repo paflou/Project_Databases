@@ -1,5 +1,5 @@
 DROP PROCEDURE IF EXISTS auto_grading;
-DROP PROCEDURE IF EXISTS grade_applications;
+DROP PROCEDURE IF EXISTS result_extraction;
 
 DELIMITER $
 CREATE PROCEDURE auto_grading(
@@ -59,8 +59,7 @@ DELIMITER ;
 
 
 
-/*
--- 3.1.2.2--
+-- 3.1.2.2-----------------------------------------------------------------------------------
 DELIMITER $
 CREATE PROCEDURE result_extraction(
 job int, OUT Results varchar(30))
@@ -80,7 +79,7 @@ BEGIN
     OPEN bcursor;
 	FETCH bcursor INTO candidate;
 
-    WHILE (bcursor IS NOT NULL)
+    WHILE (flag=0)
     DO       
         select application_status into state
         from applies
@@ -88,10 +87,10 @@ BEGIN
         
         UPDATE application_eval
         SET total_grade = (grade1 / grade2)/2
-        WHERE cand_usrname = candidate;
+        WHERE employee = candidate;
         
 		select grade1 from applies
-        where cand_usrname = candidate
+        where cand_usrname = candidate;
         
 		FETCH bcursor INTO candidate;
 	END WHILE;
@@ -109,4 +108,7 @@ BEGIN
     CLOSE bcursor;
 END$
 DELIMITER ;
-*/
+
+CALL result_extraction(1,@res);
+SELECT @res;
+
