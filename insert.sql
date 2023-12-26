@@ -184,17 +184,13 @@ INSERT INTO degree (titlos, idryma, bathmida) VALUES
 
 ('Master of Finance', 'Paris University', 'MSc'),
 ('Master of Marketing', 'London Business School', 'MSc'),
-('Master of Computer Engineering', 'University of Patras', 'MSc'),
 ('Master of Electrical Engineering', 'Massachusetts Institute of Technology', 'MSc'),
-('Master of Mechanical Engineering', 'University of Cambridge', 'MSc'),
 ('Master of Computer Science and Math', 'University of Athens', 'MSc'),
 ('Master of Computer Science', 'Harvard University', 'MSc'),
 
 ('Doctorate in Computer Science and Math', 'University of Athens', 'PhD'),
-('Doctorate in Computer Engineering', 'University of Patras', 'PhD'),
 ('Doctorate in Mechanical Engineering', 'University of Cambridge', 'PhD'),
 ('Doctorate in Computer Science', 'Harvard University', 'PhD');
-
 
 
 
@@ -203,7 +199,6 @@ INSERT INTO has_degree (degr_title, degr_idryma, cand_usrname, etos, grade) VALU
 ('Bachelor of Finance', 'Paris University', 'lisa_jones', 2020, 5.0),
 ('Bachelor of Electrical Engineering', 'Massachusetts Institute of Technology', 'kevin_davis', 2015, 5.0),
 ('Bachelor of Marketing', 'London Business School', 'steve_martin', 2022, 5.0),
-('Bachelor of Education', 'Barcelona Education Institute', 'emily_wilson', 2017, 5.0),
 ('Bachelor of Computer Engineering', 'University of Patras', 'Fortume', 2018, 8.45),
 ('Bachelor of Computer Science', 'Harvard University', 'Yeepy', 2015, 9.5),
 ('Bachelor of Computer Science', 'Harvard University', 'Pilve1984', 2020, 9.5),
@@ -211,16 +206,16 @@ INSERT INTO has_degree (degr_title, degr_idryma, cand_usrname, etos, grade) VALU
 ('Bachelor of Computer Science', 'Harvard University', 'Alte1970', 2018, 7.2),
 
 ('Master of Finance', 'Paris University', 'lisa_jones', 2020, 7.0),
-('Master of Marketing and Math', 'London Business School', 'steve_martin', 2022, 6.2),
-('Master of Computer Engineering', 'University of Patras', 'Fortume', 2018, 8.45),
-('Master of Data Science', 'Stanford University', 'Pilve1984', 2016, 7.85),
+('Master of Marketing', 'London Business School', 'steve_martin', 2022, 6.2),
+('Master of Computer Science', 'Harvard University', 'Fortume', 2018, 8.45),
 ('Master of Computer Science and Math', 'University of Athens', 'Pilve1984', 2021, 8.9),
-('Master of Computer Science and Math', 'University of Athens', 'Yeepy', 2019, 6.1),
+('Master of Computer Science', 'Harvard University', 'Yeepy', 2019, 6.1),
 ('Master of Electrical Engineering', 'Massachusetts Institute of Technology', 'Alte1970', 2019, 9.2),
 
 ('Doctorate in Computer Science and Math', 'University of Athens', 'Yeepy', 2022, 8.7),
-('Doctorate in Data Science', 'Stanford University', 'Pilve1984', 2016, 7.85),
-('Doctorate in Electrical Engineering', 'Massachusetts Institute of Technology', 'Alte1970', 2019, 9.2);
+('Doctorate in Computer Science', 'Harvard University', 'Pilve1984', 2016, 7.85),
+('Doctorate in Mechanical Engineering', 'University of Cambridge', 'Alte1970', 2019, 9.2);
+
 
 
 
