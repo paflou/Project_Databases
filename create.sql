@@ -110,7 +110,7 @@ titlos varchar(150) DEFAULT 'unknown' NOT NULL,
 idryma  varchar(150) DEFAULT 'unknown' NOT NULL,
 bathmida enum('BSc', 'MSc', 'PhD'),
 
-PRIMARY KEY( titlos, idryma)
+PRIMARY KEY( titlos, idryma,bathmida)
 );
 
 CREATE TABLE IF NOT EXISTS has_degree(
@@ -153,7 +153,8 @@ CREATE TABLE IF NOT EXISTS applies(
 cand_usrname varchar(30) NOT NULL,
 job_id int(11) NOT NULL,
 application_status ENUM ('active', 'canceled', 'finished') DEFAULT 'active',
-	
+insertion_time DATETIME,
+
 PRIMARY KEY(cand_usrname, job_id),
 CONSTRAINT applies_con_1
 FOREIGN KEY (cand_usrname)
@@ -224,6 +225,7 @@ job_id int NOT NULL,
 application_status ENUM ('active', 'canceled', 'finished'),		#την κατάσταση (ολοκληρωμένη) ???  orthografiko gia na tairiazei me csv
 grade1 int DEFAULT 0,
 grade2 int DEFAULT 0,
+total_grade int DEFAULT 0,
 
 PRIMARY KEY (evaluator_1,evaluator_2,employee,job_id),
 

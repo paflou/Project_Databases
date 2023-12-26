@@ -150,21 +150,21 @@ INSERT INTO job VALUE
 
 
 INSERT INTO applies VALUES
-('mark_smith', 1, DEFAULT),
-('lisa_jones', 2, DEFAULT),
-('kevin_davis', 3, DEFAULT),
-('natalie_white', 1, DEFAULT),
-('steve_martin', 2, DEFAULT),
-('emily_wilson', 1, DEFAULT);
-# select * from applies;
+('mark_smith', 1, DEFAULT, NOW()),
+('lisa_jones', 2, DEFAULT, NOW()),
+('kevin_davis', 3, DEFAULT, NOW()),
+('natalie_white', 1, DEFAULT, NOW()),
+('steve_martin', 2, DEFAULT, NOW()),
+('emily_wilson', 1, DEFAULT, NOW());
+
 
 INSERT INTO applies VALUES
-('Tord2003',1, DEFAULT),
-('Pilve1984',2, DEFAULT),
-('Yeepy',3, DEFAULT),
-('Alte1970',4, DEFAULT),
-('Hunitesige',5, DEFAULT),
-('Fortume',6, DEFAULT);
+('Tord2003', 1, DEFAULT, NOW()),
+('Pilve1984', 2, DEFAULT, NOW()),
+('Yeepy', 3, DEFAULT, NOW()),
+('Alte1970', 4, DEFAULT, NOW()),
+('Hunitesige', 5, DEFAULT, NOW()),
+('Fortume', 6, DEFAULT, NOW());
 
 -- TEST FOR TRIGGER 3.1.2.1
  #INSERT INTO applies VALUES
@@ -173,37 +173,57 @@ INSERT INTO applies VALUES
 #('Tord2003',4, DEFAULT);
 
 INSERT INTO degree (titlos, idryma, bathmida) VALUES
-('Computer Science and Math', 'University of Athens', 'BSc'),
-('Finance', 'Paris University', 'MSc'),
-('Engineering', 'Berlin Technical University', 'PhD'),
-('Nursing', 'Madrid Nursing School', 'BSc'),
-('Marketing and Math', 'London Business School', 'MSc'),
-('Education', 'Barcelona Education Institute', 'PhD');
-# select * from degree;
+('Bachelor of Computer Science and Math', 'University of Athens', 'BSc'),
+('Bachelor of Data Science', 'Stanford University', 'BSc'),
+('Bachelor of Electrical Engineering', 'Massachusetts Institute of Technology', 'BSc'),
+('Bachelor of Mechanical Engineering', 'University of Cambridge', 'BSc'),
+('Bachelor of Computer Science', 'Harvard University', 'BSc'),
+('Bachelor of Finance', 'Paris University', 'BSc'),
+('Bachelor of Marketing', 'London Business School', 'BSc'),
+('Bachelor of Computer Engineering', 'University of Patras', 'BSc'),
 
-INSERT INTO degree VALUE
-('Computer Engineering', 'University of Patras', 'MSc'),
-('Electrical Engineering', 'Massachusetts Institute of Technology', 'PhD'),
-('Data Science', 'Stanford University', 'MSc'),
-('Mechanical Engineering', 'University of Cambridge', 'PhD'),
-('Civil Engineering', 'ETH Zurich', 'MSc'),
-('Computer Science', 'Harvard University', 'PhD');
+('Master of Finance', 'Paris University', 'MSc'),
+('Master of Marketing', 'London Business School', 'MSc'),
+('Master of Computer Engineering', 'University of Patras', 'MSc'),
+('Master of Electrical Engineering', 'Massachusetts Institute of Technology', 'MSc'),
+('Master of Mechanical Engineering', 'University of Cambridge', 'MSc'),
+('Master of Computer Science and Math', 'University of Athens', 'MSc'),
+('Master of Computer Science', 'Harvard University', 'MSc'),
+
+('Doctorate in Computer Science and Math', 'University of Athens', 'PhD'),
+('Doctorate in Computer Engineering', 'University of Patras', 'PhD'),
+('Doctorate in Mechanical Engineering', 'University of Cambridge', 'PhD'),
+('Doctorate in Computer Science', 'Harvard University', 'PhD');
+
+
 
 
 INSERT INTO has_degree (degr_title, degr_idryma, cand_usrname, etos, grade) VALUES
-('Computer Science and Math', 'University of Athens', 'mark_smith', 2018, 3.5),
-('Finance', 'Paris University', 'lisa_jones', 2020, 4.0),
-('Engineering', 'Berlin Technical University', 'kevin_davis', 2015, 3.8),
-('Nursing', 'Madrid Nursing School', 'natalie_white', 2019, 3.7),
-('Marketing and Math', 'London Business School', 'steve_martin', 2022, 4.2),
-('Education', 'Barcelona Education Institute', 'emily_wilson', 2017, 3.9);
-# select * from has_degree;
+('Bachelor of Computer Science and Math', 'University of Athens', 'mark_smith', 2018, 5.0),
+('Bachelor of Finance', 'Paris University', 'lisa_jones', 2020, 5.0),
+('Bachelor of Electrical Engineering', 'Massachusetts Institute of Technology', 'kevin_davis', 2015, 5.0),
+('Bachelor of Marketing', 'London Business School', 'steve_martin', 2022, 5.0),
+('Bachelor of Education', 'Barcelona Education Institute', 'emily_wilson', 2017, 5.0),
+('Bachelor of Computer Engineering', 'University of Patras', 'Fortume', 2018, 8.45),
+('Bachelor of Computer Science', 'Harvard University', 'Yeepy', 2015, 9.5),
+('Bachelor of Computer Science', 'Harvard University', 'Pilve1984', 2020, 9.5),
+('Bachelor of Computer Science and Math', 'University of Athens', 'Tord2003', 2017, 8.0),
+('Bachelor of Computer Science', 'Harvard University', 'Alte1970', 2018, 7.2),
 
-INSERT INTO has_degree VALUE
-('Computer Engineering', 'University of Patras','Fortume',2018,8.45),
-('Electrical Engineering', 'Massachusetts Institute of Technology','Pilve1984',2020,7.45),
-('Data Science', 'Stanford University','Hunitesige',2016,7.85),
-('Computer Science', 'Harvard University','Yeepy',2020,9.50);
+('Master of Finance', 'Paris University', 'lisa_jones', 2020, 7.0),
+('Master of Marketing and Math', 'London Business School', 'steve_martin', 2022, 6.2),
+('Master of Computer Engineering', 'University of Patras', 'Fortume', 2018, 8.45),
+('Master of Data Science', 'Stanford University', 'Pilve1984', 2016, 7.85),
+('Master of Computer Science and Math', 'University of Athens', 'Pilve1984', 2021, 8.9),
+('Master of Computer Science and Math', 'University of Athens', 'Yeepy', 2019, 6.1),
+('Master of Electrical Engineering', 'Massachusetts Institute of Technology', 'Alte1970', 2019, 9.2),
+
+('Doctorate in Computer Science and Math', 'University of Athens', 'Yeepy', 2022, 8.7),
+('Doctorate in Data Science', 'Stanford University', 'Pilve1984', 2016, 7.85),
+('Doctorate in Electrical Engineering', 'Massachusetts Institute of Technology', 'Alte1970', 2019, 9.2);
+
+
+
 
 
 INSERT INTO subject (title, descr, belongs_to) VALUES
@@ -266,18 +286,21 @@ INSERT INTO dba (username, start_date, end_date) VALUES
 ('olivia_carter', '2023-12-15', NULL);
 # select * from dba;
 
+INSERT INTO application_eval (evaluator_1, evaluator_2, employee, job_id, application_status, grade1, grade2)
+VALUES
+('john_doe', 'alice_smith', 'mark_smith', 1, 'active', 15, 18),
+('john_doe', 'bob_jones', 'lisa_jones', 1, 'active', 12, 19),
+('alice_smith', 'bob_jones', 'kevin_davis', 1, 'active', 17, 14),
+('bob_jones', 'emma_wilson', 'natalie_white', 2, 'active', 19, 16),
+('emma_wilson', 'alex_miller', 'steve_martin', 2, 'active', 16, 20),
+('alex_miller', 'sara_jackson', 'emily_wilson', 2, 'active', 14, 18),
+('john_doe', 'alice_smith', 'Fortume', 3, 'active', 18, 13),
+('alice_smith', 'bob_jones', 'Yeepy', 3, 'active', 15, 17),
+('bob_jones', 'emma_wilson', 'Pilve1984', 3, 'active', 13, 16),
+('emma_wilson', 'alex_miller', 'Tord2003', 4, 'active', 20, 18);
+
 INSERT INTO application_eval (evaluator_1, evaluator_2, employee, job_id, application_status)
 VALUES
-('john_doe', 'alice_smith', 'mark_smith', 1, 'active'),
-('john_doe', 'bob_jones', 'lisa_jones', 1, 'active'),
-('alice_smith', 'bob_jones', 'kevin_davis', 1, 'active'),
-('bob_jones', 'emma_wilson', 'natalie_white', 2, 'active'),
-('emma_wilson', 'alex_miller', 'steve_martin', 2, 'active'),
-('alex_miller', 'sara_jackson', 'emily_wilson', 2, 'active'),
-('john_doe', 'alice_smith', 'Fortume', 3, 'active'),
-('alice_smith', 'bob_jones', 'Yeepy', 3, 'active'),
-('bob_jones', 'emma_wilson', 'Pilve1984', 3, 'active'),
-('emma_wilson', 'alex_miller', 'Tord2003', 4, 'active'),
 ('alex_miller', 'sara_jackson', 'Alte1970', 4, 'canceled'),
 ('bob_jones', 'emma_wilson', 'Hunitesige', 4, 'finished'),
 ('alice_smith', 'bob_jones', 'kevin_davis', 5, 'active'),

@@ -225,11 +225,11 @@ END IF;
 
 END $
 DELIMITER ;
-
+/*
 -- 3.1.2.2 ---------------------------------------------------------------
 DELIMITER $
 CREATE TRIGGER evaluation
-BEFORE INSERT ON application_eval
+BEFORE DELETE ON application_eval
 FOR EACH ROW
 BEGIN
 	DECLARE state ENUM ('active', 'canceled', 'finished');
@@ -254,3 +254,4 @@ BEGIN
 	END IF;
 END$
 DELIMITER ;
+*/
