@@ -18,20 +18,26 @@ BEGIN
     
     DECLARE CONTINUE HANDLER FOR NOT FOUND SET flag=1;
     set flag=0;
-    
-    SELECT bathmida INTO level
-    FROM degree
-    inner join has_degree ON titlos = degr_title AND degr_idryma = idryma
-    WHERE cand_usrname = candidate;
 	
     set grade = 0;
+    OPEN bcursor;
     
+	FETCH bcursor INTO level;
+
+	WHILE(flag=0)
+    DO
     SET grade =
 	CASE
 		WHEN level = 'BSc' THEN  grade + 1
 		WHEN level = 'MSc' THEN  grade + 2
 		ELSE grade + 3
 	END;
+
+	FETCH bcursor INTO level;
+    END WHILE;
+    
+    
+    CLOSE bcursor;
     
 	select MAX(num) INTO project_num
     FROM project WHERE candid = candidate;
@@ -50,6 +56,8 @@ BEGIN
     
 END$
 DELIMITER ;
+
+
 
 /*
 -- 3.1.2.2--
