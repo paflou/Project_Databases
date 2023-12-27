@@ -10,6 +10,7 @@ DROP TRIGGER IF EXISTS degree_trigger_1;
 DROP TRIGGER IF EXISTS degree_trigger_2;
 DROP TRIGGER IF EXISTS degree_trigger_3;
 DROP TRIGGER IF EXISTS evaluation;
+DROP TRIGGER IF EXISTS auto_applies;
 
 
 DELIMITER $
@@ -225,11 +226,11 @@ END IF;
 
 END $
 DELIMITER ;
-/*
+
 -- 3.1.2.2 ---------------------------------------------------------------
 DELIMITER $
 CREATE TRIGGER evaluation
-BEFORE DELETE ON application_eval
+BEFORE UPDATE ON application_eval
 FOR EACH ROW
 BEGIN
 	DECLARE state ENUM ('active', 'canceled', 'finished');
@@ -238,20 +239,45 @@ BEGIN
         
 
 	
-	if(new.application_status <> 'canceled')
+	if(OLD.application_status != 'canceled')
 	THEN
-		IF(new.grade1 = 0)
+		IF(OLD.grade1 = 0)
         THEN
-			CALL auto_grading(new.employee,grade1_result);
+			CALL auto_grading(NEW.employee,grade1_result);
             set NEW.grade1 = grade1_result;
         END IF;
         
-		IF(new.grade2 = 0)
+		IF(OLD.grade2 = 0)
         THEN
-			CALL auto_grading(new.employee,grade2_result);
-            set new.grade2 = grade2_result;
+			CALL auto_grading(NEW.employee,grade2_result);
+            set NEW.grade2 = grade2_result;
         END IF;
+        
+        SET NEW.total_grade = (NEW.grade1 + NEW.grade2) / 2;
+        
+	ELSE
+		SET NEW.total_grade = 0;
 	END IF;
 END$
 DELIMITER ;
-*/
+
+
+DELIMITER $
+CREATE TRIGGER auto_applies
+BEFORE INSERT ON application_eval
+FOR EACH ROW
+BEGIN
+	DECLARE flag int;
+    
+    SELECT job_id INTO flag
+    FROM applies
+    WHERE new.employee = cand_usrname AND applies.job_id = new.job_id;
+    
+    IF ( flag IS NULL )
+	THEN
+		INSERT INTO applies VALUES
+        (new.employee, new.job_id, new.application_status, NOW());
+    END IF;
+END $
+DELIMITER ;
+

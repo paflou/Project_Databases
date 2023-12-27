@@ -12,7 +12,7 @@ DROP TABLE IF EXISTS project;
 DROP TABLE IF EXISTS languages;
 DROP TABLE IF EXISTS has_degree;
 DROP TABLE IF EXISTS employee;
-
+DROP TABLE IF EXISTS applications_history;
 
 -- Tables with no constraints
 DROP TABLE IF EXISTS job;
@@ -155,7 +155,7 @@ job_id int(11) NOT NULL,
 application_status ENUM ('active', 'canceled', 'finished') DEFAULT 'active',
 insertion_time DATETIME,
 
-PRIMARY KEY(cand_usrname, job_id),
+PRIMARY KEY(cand_usrname, job_id,application_status),
 CONSTRAINT applies_con_1
 FOREIGN KEY (cand_usrname)
 REFERENCES employee(username)
@@ -195,15 +195,14 @@ ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS applications_history(
-evaluator_1 varchar(30) NOT NULL,
-evaluator_2 varchar(30) NOT NULL,
+evaluator_1 varchar(30),
+evaluator_2 varchar(30),
 employee varchar(30) NOT NULL,
 job_id int(11) 	NOT NULL,
 application_status ENUM ('active', 'canceled', 'finished'),		#την κατάσταση (ολοκληρωμένη) ???  orthografiko gia na tairiazei me csv
 grade int DEFAULT '0' NOT NULL,
 
-PRIMARY KEY (evaluator_1, evaluator_2, employee, job_id)
-
+PRIMARY KEY (employee, job_id, application_status)
 );
 
 CREATE TABLE IF NOT EXISTS dba(
@@ -215,11 +214,13 @@ PRIMARY KEY (username),
 CONSTRAINT dba_con
 FOREIGN KEY (username)
 REFERENCES user(username)
+ON DELETE CASCADE ON UPDATE CASCADE
 );
+
 -- APPLICATION EVALUATION -----------------------------------------------
 CREATE TABLE IF NOT EXISTS application_eval(
-evaluator_1 varchar(30) NOT NULL,
-evaluator_2 varchar(30) NOT NULL,
+evaluator_1 varchar(30),
+evaluator_2 varchar(30),
 employee varchar(30) NOT NULL,
 job_id int NOT NULL,
 application_status ENUM ('active', 'canceled', 'finished'),		#την κατάσταση (ολοκληρωμένη) ???  orthografiko gia na tairiazei me csv
@@ -227,21 +228,12 @@ grade1 int DEFAULT 0,
 grade2 int DEFAULT 0,
 total_grade int DEFAULT 0,
 
-PRIMARY KEY (evaluator_1,evaluator_2,employee,job_id),
+PRIMARY KEY (employee,job_id,application_status),
 
-CONSTRAINT EVAL_NAME
-FOREIGN KEY (evaluator_1)
-REFERENCES evaluator(username),
-FOREIGN KEY (evaluator_2)
-REFERENCES evaluator(username),
-
-CONSTRAINT EMPLOYEE_NAME
-FOREIGN KEY (employee)
-REFERENCES employee(username),
-
-CONSTRAINT JOB_ID
-FOREIGN KEY (job_id)
-REFERENCES job(id)
+CONSTRAINT EMPLOYEE_NAME_JOB_ID
+FOREIGN KEY (employee, job_id)
+REFERENCES applies(cand_usrname, job_id)
+ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 

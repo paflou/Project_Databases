@@ -148,24 +148,6 @@ INSERT INTO job VALUE
 (DEFAULT,'2023-06-30', 75000.00, 'Project Manager', 'Illinois', 'DreamyCoder', '2023-06-25 14:20:00', '2023-08-31'),
 (DEFAULT,'2023-07-12', 58000.00, 'Sales Representative', 'Arizona', 'Ancingingen', '2023-07-05 09:45:00', '2023-09-25');
 
-
-INSERT INTO applies VALUES
-('mark_smith', 1, DEFAULT, NOW()),
-('lisa_jones', 2, DEFAULT, NOW()),
-('kevin_davis', 3, DEFAULT, NOW()),
-('natalie_white', 1, DEFAULT, NOW()),
-('steve_martin', 2, DEFAULT, NOW()),
-('emily_wilson', 1, DEFAULT, NOW());
-
-
-INSERT INTO applies VALUES
-('Tord2003', 1, DEFAULT, NOW()),
-('Pilve1984', 2, DEFAULT, NOW()),
-('Yeepy', 3, DEFAULT, NOW()),
-('Alte1970', 4, DEFAULT, NOW()),
-('Hunitesige', 5, DEFAULT, NOW()),
-('Fortume', 6, DEFAULT, NOW());
-
 -- TEST FOR TRIGGER 3.1.2.1
  #INSERT INTO applies VALUES
 #('Tord2003',2, DEFAULT),
@@ -281,23 +263,55 @@ INSERT INTO dba (username, start_date, end_date) VALUES
 ('olivia_carter', '2023-12-15', NULL);
 # select * from dba;
 
+/*
+INSERT INTO applies VALUES
+('mark_smith', 1, DEFAULT, NOW()),
+('Tord2003', 1, DEFAULT, NOW()),
+('emily_wilson', 1, DEFAULT, NOW()),
+('natalie_white', 1, DEFAULT, NOW()),
+('Alte1970', 1, DEFAULT, NOW()),
+
+('lisa_jones', 2, DEFAULT, NOW()),
+('steve_martin', 2, DEFAULT, NOW()),
+('Pilve1984', 2, DEFAULT, NOW()),
+
+('kevin_davis', 3, DEFAULT, NOW()),
+('Yeepy', 3, DEFAULT, NOW()),
+
+('Alte1970', 4, DEFAULT, NOW()),
+('Hunitesige', 4, DEFAULT, NOW()),
+
+('Hunitesige', 5, DEFAULT, NOW()),
+
+('Hunitesige', 6, DEFAULT, NOW()),
+('Fortume', 6, DEFAULT, NOW());
+*/
+
 INSERT INTO application_eval (evaluator_1, evaluator_2, employee, job_id, application_status, grade1, grade2)
 VALUES
 ('john_doe', 'alice_smith', 'mark_smith', 1, 'active', 15, 18),
-('john_doe', 'bob_jones', 'lisa_jones', 1, 'active', 12, 19),
-('alice_smith', 'bob_jones', 'kevin_davis', 1, 'active', 17, 14),
-('bob_jones', 'emma_wilson', 'natalie_white', 2, 'active', 19, 16),
+('bob_jones', 'emma_wilson', 'natalie_white', 1, 'active', 19, 16),
+('alex_miller', 'sara_jackson', 'emily_wilson', 1, 'active', 14, 18),
+('emma_wilson', 'alex_miller', 'Tord2003', 1, 'active', 20, 18),
+
+('john_doe', 'bob_jones', 'lisa_jones', 2, 'active', 12, 19),
 ('emma_wilson', 'alex_miller', 'steve_martin', 2, 'active', 16, 20),
-('alex_miller', 'sara_jackson', 'emily_wilson', 2, 'active', 14, 18),
-('john_doe', 'alice_smith', 'Fortume', 3, 'active', 18, 13),
+('bob_jones', 'emma_wilson', 'Pilve1984', 2, 'active', 13, 16),
+
+('alice_smith', 'bob_jones', 'kevin_davis', 3, 'active', 17, 14),
 ('alice_smith', 'bob_jones', 'Yeepy', 3, 'active', 15, 17),
-('bob_jones', 'emma_wilson', 'Pilve1984', 3, 'active', 13, 16),
-('emma_wilson', 'alex_miller', 'Tord2003', 4, 'active', 20, 18);
+
+('bob_jones', 'emma_wilson', 'Hunitesige', 4, 'active', 15, 14),
+
+('bob_jones', 'emma_wilson', 'Hunitesige', 5, 'active', 9, 11),
+('john_doe', 'alice_smith', 'Fortume', 6, 'active', 18, 13),
+('bob_jones', 'emma_wilson', 'Hunitesige', 6, 'active', 16, 20);
+
 
 INSERT INTO application_eval (evaluator_1, evaluator_2, employee, job_id, application_status)
 VALUES
+('alex_miller', 'sara_jackson', 'Alte1970', 1, 'active'),
 ('alex_miller', 'sara_jackson', 'Alte1970', 4, 'canceled'),
-('bob_jones', 'emma_wilson', 'Hunitesige', 4, 'finished'),
 ('alice_smith', 'bob_jones', 'kevin_davis', 5, 'active'),
 ('bob_jones', 'emma_wilson', 'steve_martin', 5, 'canceled'),
 ('john_doe', 'alice_smith', 'mark_smith', 5, 'finished');
