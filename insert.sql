@@ -322,6 +322,3 @@ FIELDS TERMINATED BY ','
 OPTIONALLY ENCLOSED BY '"'
 LINES TERMINATED BY '\r\n'
 IGNORE 1 ROWS;
-
-#select * from applications_history;
-select * from application_eval;
