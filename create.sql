@@ -193,6 +193,7 @@ FOREIGN KEY (subject_title)
 REFERENCES subject(title)
 ON DELETE CASCADE ON UPDATE CASCADE
 );
+-- TA EVAL STO APPLIES
 
 CREATE TABLE IF NOT EXISTS applications_history(
 evaluator_1 varchar(30),
@@ -242,7 +243,11 @@ change_id int(11) 	NOT NULL AUTO_INCREMENT,
 changes ENUM('INSERT', 'UPDATE', 'DELETE'),		#allagh se kefalaia
 changed_tables ENUM('job', 'user', 'degree'),
 change_time datetime NOT NULL,
-username varchar(30) NOT NULL,
+username varchar(30),
 
-PRIMARY KEY(change_id)
+PRIMARY KEY(change_id),
+CONSTRAINT log_con
+foreign key (username)
+REFERENCES dba(username)
+ON DELETE SET NULL ON UPDATE CASCADE
 );

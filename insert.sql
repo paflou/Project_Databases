@@ -149,10 +149,10 @@ INSERT INTO job VALUE
 (DEFAULT,'2023-07-12', 58000.00, 'Sales Representative', 'Arizona', 'Ancingingen', '2023-07-05 09:45:00', '2023-09-25');
 
 -- TEST FOR TRIGGER 3.1.2.1
- #INSERT INTO applies VALUES
-#('Tord2003',2, DEFAULT),
-#('Tord2003',3, DEFAULT),
-#('Tord2003',4, DEFAULT);
+#INSERT INTO applies VALUES
+#('Tord2003',2, DEFAULT,NOW()),
+#('Tord2003',3, DEFAULT,NOW()),
+#('Tord2003',4, DEFAULT,NOW());
 
 INSERT INTO degree (titlos, idryma, bathmida) VALUES
 ('Bachelor of Computer Science and Math', 'University of Athens', 'BSc'),
@@ -307,7 +307,6 @@ VALUES
 ('john_doe', 'alice_smith', 'Fortume', 6, 'active', 18, 13),
 ('bob_jones', 'emma_wilson', 'Hunitesige', 6, 'active', 16, 20);
 
-
 INSERT INTO application_eval (evaluator_1, evaluator_2, employee, job_id, application_status)
 VALUES
 ('alex_miller', 'sara_jackson', 'Alte1970', 1, 'active'),
@@ -316,6 +315,12 @@ VALUES
 ('bob_jones', 'emma_wilson', 'steve_martin', 5, 'canceled'),
 ('john_doe', 'alice_smith', 'mark_smith', 5, 'finished');
 
+/*
+SELECT * FROM application_eval;
+select * from applications_history;
+CALL result_extraction(1,@res);
+select @res;
+*/
 
 LOAD DATA INFILE "myFile0.csv" INTO TABLE applications_history
 FIELDS TERMINATED BY ','

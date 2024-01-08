@@ -31,7 +31,7 @@ SET NEW.num = COALESCE(max_num, 0) + 1;
 END $
 DELIMITER ;
 
-
+-- 3.1.4.2 ----------------------------------------------
 DELIMITER $
 CREATE TRIGGER Application_Status
 BEFORE INSERT ON applies
