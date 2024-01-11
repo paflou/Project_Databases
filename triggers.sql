@@ -11,7 +11,7 @@ DROP TRIGGER IF EXISTS degree_trigger_2;
 DROP TRIGGER IF EXISTS degree_trigger_3;
 DROP TRIGGER IF EXISTS evaluation;
 DROP TRIGGER IF EXISTS auto_applies;
-
+DROP TRIGGER IF EXISTS cancel_enable_prevention;
 
 DELIMITER $
 CREATE TRIGGER project_trigger
@@ -42,7 +42,7 @@ BEGIN
     
     select count(*) into applications
     from applies
-    where cand_usrname = new.cand_usrname;
+    where cand_usrname = new.cand_usrname AND application_status = 'active';
     
     select job.start_date into job_start
     from job
@@ -51,7 +51,7 @@ BEGIN
 	IF(applications >= 3 OR DATEDIFF(job_start, DATE( NOW() ) ) > 15)
     THEN
 		SIGNAL SQLSTATE '45000'        
-		SET MESSAGE_TEXT = 'Employee cannot apply for this position';
+		SET MESSAGE_TEXT = 'ERROR: Employee cannot apply for this position ';
 	END IF;
 END $
 DELIMITER ;
@@ -261,7 +261,56 @@ BEGIN
 END$
 DELIMITER ;
 
+DELIMITER $
+CREATE TRIGGER cancel_enable_prevention
+BEFORE UPDATE ON applies
+FOR EACH ROW
+BEGIN
+	DECLARE starting_date DATE;
+    DECLARE applications INT;
+    
 
+	SELECT start_date INTO starting_date
+    FROM job 
+    WHERE job.id = old.job_id;
+
+    select count(*) into applications
+    from applies
+    where cand_usrname = new.cand_usrname;
+
+    
+	IF(applications >= 3 AND new.application_status = 'active')
+    THEN
+		SIGNAL SQLSTATE '45000'        
+		SET MESSAGE_TEXT = 'ERROR: Employee already has 3 active applications ';
+	END IF;
+    
+	IF new.application_status = 'canceled' and old.application_status !='canceled' THEN
+		IF starting_date - CURDATE() < 10 THEN
+			SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'ERROR: Starting date is less than 10 days away ';
+		END IF;
+    END IF;
+END$
+DELIMITER ;
+
+
+INSERT INTO job VALUES
+(NULL, '2023-01-15', 50000.00, 'IT Support Specialist', 'Athens', 'john_doe', 'alice_smith', '2023-01-05 08:00:00', '2024-01-15');
+select * from job
+
+/*
+call application_handler('Alte1970', 17,'i');
+call application_handler('Alte1970', 17,'c');
+call application_handler('Alte1970', 3,'a');
+call application_handler('emily_wilson', 2,'a');
+select * from applies;
+*/
+
+
+
+
+/* -- PROBABLY NOT NEEDED
 DELIMITER $
 CREATE TRIGGER auto_applies
 BEFORE INSERT ON application_eval
@@ -281,3 +330,4 @@ BEGIN
 END $
 DELIMITER ;
 
+*/

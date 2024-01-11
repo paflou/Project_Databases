@@ -16,10 +16,10 @@ DROP TABLE IF EXISTS applications_history;
 
 -- Tables with no constraints
 DROP TABLE IF EXISTS job;
+DROP TABLE IF EXISTS log;
 DROP TABLE IF EXISTS dba;
 DROP TABLE IF EXISTS degree;
 DROP TABLE IF EXISTS subject;
-DROP TABLE IF EXISTS log;
 DROP TABLE IF EXISTS evaluator;
 DROP TABLE IF EXISTS etaireia;
 DROP TABLE IF EXISTS user;
@@ -48,8 +48,7 @@ lastname varchar(35) DEFAULT 'unknown' NOT NULL,
 reg_date datetime NOT NULL,
 email varchar(30) DEFAULT 'unknown' NOT NULL,
 
-PRIMARY KEY (username),
-UNIQUE(password)
+PRIMARY KEY (username)
 );
 
 CREATE TABLE IF NOT EXISTS evaluator(
@@ -137,13 +136,18 @@ start_date date NOT NULL,
 salary float DEFAULT '0' NOT NULL,
 position varchar(60) DEFAULT 'unknown' NOT NULL,
 edra varchar(60) DEFAULT 'unknown' NOT NULL,
-evaluator varchar(30) NOT NULL,
+evaluator_1 varchar(30) DEFAULT NULL,
+evaluator_2 varchar(30) DEFAULT NULL,
 announce_date datetime NOT NULL,
 submission_date date NOT NULL,
 
 PRIMARY KEY(id),
 CONSTRAINT job_con
-FOREIGN KEY(evaluator)
+FOREIGN KEY(evaluator_1)
+REFERENCES evaluator(username)
+ON DELETE CASCADE ON UPDATE CASCADE,
+CONSTRAINT job_con2
+FOREIGN KEY(evaluator_2)
 REFERENCES evaluator(username)
 ON DELETE CASCADE ON UPDATE CASCADE
 );
@@ -220,21 +224,22 @@ ON DELETE CASCADE ON UPDATE CASCADE
 
 -- APPLICATION EVALUATION -----------------------------------------------
 CREATE TABLE IF NOT EXISTS application_eval(
-evaluator_1 varchar(30),
-evaluator_2 varchar(30),
+#evaluator_1 varchar(30),
+#evaluator_2 varchar(30),
 employee varchar(30) NOT NULL,
 job_id int NOT NULL,
 application_status ENUM ('active', 'canceled', 'finished'),		#την κατάσταση (ολοκληρωμένη) ???  orthografiko gia na tairiazei me csv
-grade1 int DEFAULT 0,
-grade2 int DEFAULT 0,
+grade1 int DEFAULT -1,
+grade2 int DEFAULT -1,
 total_grade int DEFAULT 0,
 
 PRIMARY KEY (employee,job_id,application_status),
 
-CONSTRAINT EMPLOYEE_NAME_JOB_ID
-FOREIGN KEY (employee, job_id)
-REFERENCES applies(cand_usrname, job_id)
+CONSTRAINT JOB
+FOREIGN KEY (job_id)
+REFERENCES job(id)
 ON DELETE CASCADE ON UPDATE CASCADE
+
 );
 
 

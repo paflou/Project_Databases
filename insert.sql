@@ -127,26 +127,25 @@ INSERT INTO project (candid, num, descr, url) VALUES
 
 
 
-INSERT INTO job (id, start_date, salary, position, edra, evaluator, announce_date, submission_date) VALUES
-(NULL, '2023-01-15', 50000.00, 'IT Support Specialist', 'Athens', 'john_doe', '2023-01-05 08:00:00', '2023-02-01'),
-(NULL, '2023-02-20', 60000.00, 'Financial Analyst', 'Paris', 'alice_smith', '2023-02-10 10:30:00', '2023-03-01'),
-(NULL, '2023-03-25', 70000.00, 'Production Coordinator', 'Berlin', 'bob_jones', '2023-03-15 12:45:00', '2023-04-01'),
-(NULL, '2023-04-10', 55000.00, 'Registered Nurse', 'Madrid', 'emma_wilson', '2023-04-01 15:15:00', '2023-05-01'),
-(NULL, '2023-05-15', 65000.00, 'Marketing Specialist', 'London', 'alex_miller', '2023-05-05 17:30:00', '2023-06-01'),
-(NULL, '2023-06-20', 75000.00, 'Teacher', 'Barcelona', 'sara_jackson', '2023-06-10 20:45:00', '2023-07-01'),
-(NULL, '2023-07-15', 80000.00, 'Software Developer', 'Munich', 'john_doe', '2023-07-05 08:30:00', '2023-08-01'),
-(NULL, '2023-08-20', 90000.00, 'Data Scientist', 'Amsterdam', 'emma_wilson', '2023-08-10 11:00:00', '2023-09-01');
-# select * from job;
+INSERT INTO job (id, start_date, salary, position, edra, evaluator_1, evaluator_2, announce_date, submission_date) VALUES
+(NULL, '2023-01-15', 50000.00, 'IT Support Specialist', 'Athens', 'john_doe', 'alice_smith', '2023-01-05 08:00:00', '2023-02-01'),
+(NULL, '2023-02-20', 60000.00, 'Financial Analyst', 'Paris', 'alice_smith', 'bob_jones', '2023-02-10 10:30:00', '2023-03-01'),
+(NULL, '2023-03-25', 70000.00, 'Production Coordinator', 'Berlin', 'bob_jones', 'emma_wilson', '2023-03-15 12:45:00', '2023-04-01'),
+(NULL, '2023-04-10', 55000.00, 'Registered Nurse', 'Madrid', 'emma_wilson', 'alex_miller', '2023-04-01 15:15:00', '2023-05-01'),
+(NULL, '2023-05-15', 65000.00, 'Marketing Specialist', 'London', 'alex_miller', 'sara_jackson', '2023-05-05 17:30:00', '2023-06-01'),
+(NULL, '2023-06-20', 75000.00, 'Teacher', 'Barcelona', 'sara_jackson', 'john_doe', '2023-06-10 20:45:00', '2023-07-01'),
+(NULL, '2023-07-15', 80000.00, 'Software Developer', 'Munich', 'john_doe', 'emma_wilson', '2023-07-05 08:30:00', '2023-08-01'),
+(NULL, '2023-08-20', 90000.00, 'Data Scientist', 'Amsterdam', 'emma_wilson', 'alex_miller', '2023-08-10 11:00:00', '2023-09-01'),
 
-INSERT INTO job VALUE
-(DEFAULT,'2023-12-12', 60000.00, 'MECHANICAL ENGINEER','PATRAS','jacko','2015-12-13 08:15:34','2015-12-23'),
-(DEFAULT,'2023-01-15', 50000.00, 'Software Engineer', 'New York', 'Ancingingen', '2023-01-10 08:00:00', '2023-02-28'),
-(DEFAULT,'2023-02-20', 60000.00, 'Data Analyst', 'California', 'johnnyboy', '2023-02-15 10:30:00', '2023-04-15'),
-(DEFAULT,'2023-03-10', 70000.00, 'Marketing Manager', 'Texas', 'jacko', '2023-03-05 12:45:00', '2023-05-30'),
-(DEFAULT,'2023-04-05', 55000.00, 'Financial Advisor', 'Florida', 'Mucas1940', '2023-03-30 09:15:00', '2023-06-10'),
-(DEFAULT,'2023-05-22', 65000.00, 'HR Specialist', 'Washington', 'Alke1996', '2023-05-15 11:00:00', '2023-07-20'),
-(DEFAULT,'2023-06-30', 75000.00, 'Project Manager', 'Illinois', 'DreamyCoder', '2023-06-25 14:20:00', '2023-08-31'),
-(DEFAULT,'2023-07-12', 58000.00, 'Sales Representative', 'Arizona', 'Ancingingen', '2023-07-05 09:45:00', '2023-09-25');
+(DEFAULT,'2023-12-12', 60000.00, 'MECHANICAL ENGINEER','PATRAS','jacko','Ancingingen','2015-12-13 08:15:34','2015-12-23'),
+(DEFAULT,'2023-01-15', 50000.00, 'Software Engineer', 'New York', 'Ancingingen', 'johnnyboy', '2023-01-10 08:00:00', '2023-02-28'),
+(DEFAULT,'2023-02-20', 60000.00, 'Data Analyst', 'California', 'johnnyboy', 'jacko', '2023-02-15 10:30:00', '2023-04-15'),
+(DEFAULT,'2023-03-10', 70000.00, 'Marketing Manager', 'Texas', 'jacko', 'Mucas1940', '2023-03-05 12:45:00', '2023-05-30'),
+(DEFAULT,'2023-04-05', 55000.00, 'Financial Advisor', 'Florida', 'Mucas1940', 'Alke1996', '2023-03-30 09:15:00', '2023-06-10'),
+(DEFAULT,'2023-05-22', 65000.00, 'HR Specialist', 'Washington', 'Alke1996', 'DreamyCoder', '2023-05-15 11:00:00', '2023-07-20'),
+(DEFAULT,'2023-06-30', 75000.00, 'Project Manager', 'Illinois', 'DreamyCoder', 'Ancingingen', '2023-06-25 14:20:00', '2023-08-31'),
+(DEFAULT,'2023-07-12', 58000.00, 'Sales Representative', 'Arizona', 'Ancingingen', 'johnnyboy', '2023-07-05 09:45:00', '2023-09-25');
+
 
 -- TEST FOR TRIGGER 3.1.2.1
 #INSERT INTO applies VALUES
@@ -263,57 +262,54 @@ INSERT INTO dba (username, start_date, end_date) VALUES
 ('olivia_carter', '2023-12-15', NULL);
 # select * from dba;
 
-/*
+
 INSERT INTO applies VALUES
 ('mark_smith', 1, DEFAULT, NOW()),
 ('Tord2003', 1, DEFAULT, NOW()),
 ('emily_wilson', 1, DEFAULT, NOW()),
 ('natalie_white', 1, DEFAULT, NOW()),
 ('Alte1970', 1, DEFAULT, NOW()),
-
 ('lisa_jones', 2, DEFAULT, NOW()),
 ('steve_martin', 2, DEFAULT, NOW()),
 ('Pilve1984', 2, DEFAULT, NOW()),
-
 ('kevin_davis', 3, DEFAULT, NOW()),
 ('Yeepy', 3, DEFAULT, NOW()),
-
 ('Alte1970', 4, DEFAULT, NOW()),
 ('Hunitesige', 4, DEFAULT, NOW()),
-
 ('Hunitesige', 5, DEFAULT, NOW()),
-
 ('Hunitesige', 6, DEFAULT, NOW()),
 ('Fortume', 6, DEFAULT, NOW());
-*/
 
-INSERT INTO application_eval (evaluator_1, evaluator_2, employee, job_id, application_status, grade1, grade2)
+
+INSERT INTO application_eval (employee, job_id, application_status, grade1, grade2)
 VALUES
-('john_doe', 'alice_smith', 'mark_smith', 1, 'active', 15, 18),
-('bob_jones', 'emma_wilson', 'natalie_white', 1, 'active', 19, 16),
-('alex_miller', 'sara_jackson', 'emily_wilson', 1, 'active', 14, 18),
-('emma_wilson', 'alex_miller', 'Tord2003', 1, 'active', 20, 18),
+('mark_smith', 1, 'active', 15, 18),
+('natalie_white', 1, 'active', 19, 16),
+('emily_wilson', 1, 'active', 14, 18),
+('Tord2003', 1, 'active', 20, 18),
 
-('john_doe', 'bob_jones', 'lisa_jones', 2, 'active', 12, 19),
-('emma_wilson', 'alex_miller', 'steve_martin', 2, 'active', 16, 20),
-('bob_jones', 'emma_wilson', 'Pilve1984', 2, 'active', 13, 16),
+('lisa_jones', 2, 'active', 12, 19),
+('steve_martin', 2, 'active', 16, 20),
+('Pilve1984', 2, 'active', 13, 16),
 
-('alice_smith', 'bob_jones', 'kevin_davis', 3, 'active', 17, 14),
-('alice_smith', 'bob_jones', 'Yeepy', 3, 'active', 15, 17),
+('kevin_davis', 3, 'active', 17, 14),
+('Yeepy', 3, 'active', 15, 17),
 
-('bob_jones', 'emma_wilson', 'Hunitesige', 4, 'active', 15, 14),
+('Hunitesige', 4, 'active', 15, 14),
 
-('bob_jones', 'emma_wilson', 'Hunitesige', 5, 'active', 9, 11),
-('john_doe', 'alice_smith', 'Fortume', 6, 'active', 18, 13),
-('bob_jones', 'emma_wilson', 'Hunitesige', 6, 'active', 16, 20);
+('Hunitesige', 5, 'active', 9, 11),
+('Fortume', 6, 'active', 18, 13),
+('Hunitesige', 6, 'active', 16, 20);
 
-INSERT INTO application_eval (evaluator_1, evaluator_2, employee, job_id, application_status)
+
+INSERT INTO application_eval (employee, job_id, application_status)
 VALUES
-('alex_miller', 'sara_jackson', 'Alte1970', 1, 'active'),
-('alex_miller', 'sara_jackson', 'Alte1970', 4, 'canceled'),
-('alice_smith', 'bob_jones', 'kevin_davis', 5, 'active'),
-('bob_jones', 'emma_wilson', 'steve_martin', 5, 'canceled'),
-('john_doe', 'alice_smith', 'mark_smith', 5, 'finished');
+('Alte1970', 1, 'active'),
+('Alte1970', 4, 'canceled'),
+('kevin_davis', 5, 'active'),
+('steve_martin', 5, 'canceled'),
+('mark_smith', 5, 'finished');
+
 
 /*
 SELECT * FROM application_eval;

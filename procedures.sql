@@ -1,5 +1,7 @@
 DROP PROCEDURE IF EXISTS auto_grading;
 DROP PROCEDURE IF EXISTS result_extraction;
+DROP PROCEDURE IF EXISTS evaluators_grade;
+DROP PROCEDURE IF EXISTS application_handler;
 
 DELIMITER $
 CREATE PROCEDURE auto_grading(
@@ -60,7 +62,118 @@ BEGIN
 END$
 DELIMITER ;
 
--- 3.1.2.2-----------------------------------------------------------------------------------
+-- 3.1.3.1 -----------------------------------------------------------------------------
+DELIMITER $
+CREATE PROCEDURE evaluators_grade(
+evaluator varchar(30), employee_username varchar(30), job int, OUT grade int)
+BEGIN
+	DECLARE grade_out int;
+    
+    SELECT grade1 INTO grade_out
+    FROM application_eval
+    INNER JOIN job ON job_id = id
+    WHERE evaluator_1 = evaluator AND employee = employee_username AND job_id = job;
+    
+    IF grade_out IS NULL THEN
+		SELECT grade2 INTO grade_out
+		FROM application_eval
+		INNER JOIN job ON job_id = id
+		WHERE evaluator_2 = evaluator AND employee = employee_username AND job_id = job;
+	END IF;
+
+    IF grade_out IS NULL THEN
+		SET grade = 0;
+	ELSEIF grade_out = -1 THEN
+		call auto_grading(employee_username, grade);
+	ELSE 
+		SET grade = grade_out;
+	END IF;	
+END$
+DELIMITER ;
+
+-- TEST --
+/*
+select * from job;
+call evaluators_grade('john_doe', 'Alte1970', 1, @res);
+select @res;
+select * from application_eval;
+*/
+
+-- 3.1.3.2 --------------------------------------------------------------------------------
+DELIMITER $
+CREATE PROCEDURE application_handler(
+employee_username varchar(30), job int, operation char(1))
+BEGIN
+	DECLARE eval1 varchar(30);
+    DECLARE eval2 varchar(30);
+    
+	IF operation = 'i' THEN
+		SELECT evaluator_1, evaluator_2 INTO eval1, eval2
+        FROM job
+        WHERE id = job;
+        
+        IF eval1 IS NULL THEN
+			UPDATE job
+			SET evaluator_1 = (SELECT evaluator.username FROM evaluator 
+						INNER JOIN job ON job.evaluator = evaluator.username
+                        inner join evaluator AS parent_eval ON job.evaluator = parent_eval.username
+                        WHERE evaluator.firm = parent_eval.firm
+                        ORDER BY RAND()
+                        LIMIT 0,1)
+            WHERE id = job;
+		END IF;
+		IF eval2 IS NULL THEN
+			UPDATE job
+			SET evaluator_2 = (SELECT evaluator.username FROM evaluator 
+						INNER JOIN job ON job.evaluator = evaluator.username
+						inner join evaluator AS parent_eval ON job.evaluator = parent_eval.username
+                        WHERE evaluator.firm = parent_eval.firm
+						ORDER BY RAND()
+                        LIMIT 0,1)
+			WHERE id = job;
+		END IF;
+	INSERT INTO applies VALUES(employee_username, job, DEFAULT, NOW());
+
+    ELSEIF operation = 'c' THEN
+		IF EXISTS(SELECT cand_usrname FROM applies WHERE cand_usrname = employee_username AND job_id = job AND application_status = 'active') THEN
+			UPDATE applies
+            SET application_status = 'canceled'
+            WHERE cand_usrname = employee_username AND job_id = job AND application_status = 'active';
+		    
+        ELSE 
+			SIGNAL SQLSTATE '45000'        
+			SET MESSAGE_TEXT = 'Employee doesnt have active application or it has already been canceled';
+		END IF;
+	
+    ELSEIF operation = 'a' THEN
+		IF EXISTS(SELECT cand_usrname FROM applies WHERE cand_usrname = employee_username AND job_id = job AND application_status = 'canceled') THEN
+			UPDATE applies
+            SET application_status = 'active'
+            WHERE cand_usrname = employee_username AND job_id = job AND application_status = 'canceled';
+		ELSE 
+			SIGNAL SQLSTATE '45000'        
+			SET MESSAGE_TEXT = 'The application doesnt exist or employee already has active application for this position ';
+		END IF;
+	ELSE
+		SIGNAL SQLSTATE '45000'        
+		SET MESSAGE_TEXT = 'Wrong input! ';
+    END IF;
+    
+	select 'Operation success! ';
+END$
+DELIMITER ;
+
+/*
+delete from applies;
+select * from applies;
+select * from job;
+INSERT INTO application_eval VALUES ('Alte1970',2,'active',DEFAULT,DEFAULT,DEFAULT);
+call application_handler('Alte1970', 2,'i');
+call application_handler('Alte1970', 2,'c');
+call application_handler('Alte1970', 2,'a');
+call application_handler('Alte1970', 12,'c');
+*/
+-- 3.1.3.3-----------------------------------------------------------------------------------
 DELIMITER $
 CREATE PROCEDURE result_extraction(
 job int, OUT Results varchar(30))
@@ -92,8 +205,8 @@ BEGIN
         where cand_usrname = candidate AND job_id = job;
         
         SELECT evaluator_1, evaluator_2 INTO evaluator1, evaluator2
-        FROM application_eval
-        WHERE job_id =job AND employee = candidate;
+        FROM job
+        WHERE id =job;
         
 		UPDATE application_eval
 		SET total_grade = total_grade
@@ -129,3 +242,11 @@ BEGIN
      DELETE FROM applies WHERE job_id = job;
 END$
 DELIMITER ;
+
+/*
+select * from applies;
+select * from application_eval;
+select * from applications_history;
+call result_extraction(2,@res);
+select @res;
+*/
