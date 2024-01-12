@@ -145,7 +145,7 @@ INSERT INTO job (id, start_date, salary, position, edra, evaluator_1, evaluator_
 (DEFAULT,'2023-05-22', 65000.00, 'HR Specialist', 'Washington', 'Alke1996', 'DreamyCoder', '2023-05-15 11:00:00', '2023-07-20'),
 (DEFAULT,'2023-06-30', 75000.00, 'Project Manager', 'Illinois', 'DreamyCoder', 'Ancingingen', '2023-06-25 14:20:00', '2023-08-31'),
 (DEFAULT,'2023-07-12', 58000.00, 'Sales Representative', 'Arizona', 'Ancingingen', 'johnnyboy', '2023-07-05 09:45:00', '2023-09-25');
-
+select * from job;
 
 -- TEST FOR TRIGGER 3.1.2.1
 #INSERT INTO applies VALUES

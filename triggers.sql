@@ -294,12 +294,11 @@ BEGIN
 END$
 DELIMITER ;
 
-
+/*
 INSERT INTO job VALUES
 (NULL, '2023-01-15', 50000.00, 'IT Support Specialist', 'Athens', 'john_doe', 'alice_smith', '2023-01-05 08:00:00', '2024-01-15');
-select * from job
+select * from job;
 
-/*
 call application_handler('Alte1970', 17,'i');
 call application_handler('Alte1970', 17,'c');
 call application_handler('Alte1970', 3,'a');

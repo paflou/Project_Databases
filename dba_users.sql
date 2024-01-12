@@ -1,6 +1,6 @@
-SET GLOBAL validate_password.length = 4; -- Set minimum password length to 8 characters
-SET GLOBAL validate_password.number_count = 1; -- Require at least 1 numeric character
-SET GLOBAL validate_password.policy = 0; -- Set password policy to the LOW level
+-- SET GLOBAL validate_password.length = 4; -- Set minimum password length to 8 characters
+-- SET GLOBAL validate_password.number_count = 1; -- Require at least 1 numeric character
+-- SET GLOBAL validate_password.policy = 0; -- Set password policy to the LOW level
 
 
 -- Drop users if they exist
