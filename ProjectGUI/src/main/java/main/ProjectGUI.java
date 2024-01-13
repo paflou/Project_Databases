@@ -1,10 +1,10 @@
 package main;
 
+import static com.mysql.cj.protocol.a.MysqlTextValueDecoder.isDate;
 import java.awt.Color;
 import methods.ConnectToDB;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -13,17 +13,10 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import java.util.List;  // Import the List class
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableColumnModel;
 
-/**
- *
- * @author pante
- */
 
 public class ProjectGUI extends javax.swing.JFrame {
     Connection database;
@@ -34,7 +27,17 @@ public class ProjectGUI extends javax.swing.JFrame {
         initComponents();
   
     }
+    public String[] ShowTablesQuery() throws SQLException {
+        String query = "SHOW TABLES";
+        Statement statement = database.createStatement();
+        ResultSet resultSet = statement.executeQuery(query);
+        ArrayList<String> TableNames = new ArrayList<>();
+        
+        while(resultSet.next()) {
+            TableNames.add(resultSet.getString(1)); }
 
+        return TableNames.toArray(new String[0]);
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -72,6 +75,7 @@ public class ProjectGUI extends javax.swing.JFrame {
         Label7 = new javax.swing.JLabel();
         Label8 = new javax.swing.JLabel();
         Label9 = new javax.swing.JLabel();
+        FinishUpdate = new javax.swing.JButton();
         FinishInsert = new javax.swing.JButton();
         jTextField1 = new javax.swing.JTextField();
         jPasswordField1 = new javax.swing.JPasswordField();
@@ -82,11 +86,6 @@ public class ProjectGUI extends javax.swing.JFrame {
         jFrame1.setSize(new java.awt.Dimension(1080, 720));
 
         jList1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "application_eval", "applications_history", "applies", "dba", "degree", "employee", "etaireia", "evaluator", "has_degree", "job", "languages", "log", "project", "requires", "subject", "user" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
         jList1.setDoubleBuffered(true);
         jList1.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
@@ -102,6 +101,7 @@ public class ProjectGUI extends javax.swing.JFrame {
         jLabel2.setBorder(new javax.swing.border.MatteBorder(null));
 
         jTable1.setAutoCreateRowSorter(true);
+        jTable1.setShowGrid(true);
         jScrollPane2.setViewportView(jTable1);
 
         InsertButton.setText("Insert");
@@ -112,8 +112,18 @@ public class ProjectGUI extends javax.swing.JFrame {
         });
 
         DeleteButton.setText("Delete");
+        DeleteButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DeleteButtonActionPerformed(evt);
+            }
+        });
 
         UpdateButton.setText("Update");
+        UpdateButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                UpdateButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
         jFrame1.getContentPane().setLayout(jFrame1Layout);
@@ -210,6 +220,13 @@ public class ProjectGUI extends javax.swing.JFrame {
         Label9.setText("jLabel1");
         Label9.setVisible(false);
 
+        FinishUpdate.setText("Update");
+        FinishUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                FinishUpdateActionPerformed(evt);
+            }
+        });
+
         FinishInsert.setText("Insert");
         FinishInsert.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -222,105 +239,99 @@ public class ProjectGUI extends javax.swing.JFrame {
         jFrame2Layout.setHorizontalGroup(
             jFrame2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jFrame2Layout.createSequentialGroup()
-                .addGap(27, 27, 27)
                 .addGroup(jFrame2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jFrame2Layout.createSequentialGroup()
-                        .addComponent(Label1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(insert1, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(6, 6, 6)
+                        .addComponent(FinishInsert, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jFrame2Layout.createSequentialGroup()
-                        .addComponent(Label2, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(insert2, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap()
+                        .addComponent(FinishUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jFrame2Layout.createSequentialGroup()
-                        .addComponent(Label3, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(insert3, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jFrame2Layout.createSequentialGroup()
-                        .addComponent(Label4, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(insert4, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jFrame2Layout.createSequentialGroup()
-                        .addComponent(Label5, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(insert5, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jFrame2Layout.createSequentialGroup()
-                        .addComponent(Label6, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(insert6, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jFrame2Layout.createSequentialGroup()
-                        .addComponent(Label7, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(insert7, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jFrame2Layout.createSequentialGroup()
-                        .addComponent(Label8, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(insert8, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(FinishInsert, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jFrame2Layout.createSequentialGroup()
-                        .addComponent(Label9, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(insert9, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(25, 25, 25))
+                        .addGap(27, 27, 27)
+                        .addGroup(jFrame2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(jFrame2Layout.createSequentialGroup()
+                                .addComponent(Label1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(insert1, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jFrame2Layout.createSequentialGroup()
+                                .addComponent(Label2, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(insert2, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jFrame2Layout.createSequentialGroup()
+                                .addComponent(Label3, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(insert3, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jFrame2Layout.createSequentialGroup()
+                                .addComponent(Label4, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(insert4, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jFrame2Layout.createSequentialGroup()
+                                .addComponent(Label5, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(insert5, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jFrame2Layout.createSequentialGroup()
+                                .addComponent(Label6, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(insert6, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jFrame2Layout.createSequentialGroup()
+                                .addComponent(Label7, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(insert7, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jFrame2Layout.createSequentialGroup()
+                                .addComponent(Label8, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(insert8, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jFrame2Layout.createSequentialGroup()
+                                .addComponent(Label9, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(23, 23, 23)
+                                .addComponent(insert9, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addGap(1184, 1184, 1184))
         );
         jFrame2Layout.setVerticalGroup(
             jFrame2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jFrame2Layout.createSequentialGroup()
                 .addGap(31, 31, 31)
-                .addGroup(jFrame2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jFrame2Layout.createSequentialGroup()
-                        .addGap(3, 3, 3)
-                        .addComponent(Label1))
+                .addGroup(jFrame2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Label1)
                     .addComponent(insert1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jFrame2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jFrame2Layout.createSequentialGroup()
-                        .addGap(3, 3, 3)
-                        .addComponent(Label2))
+                .addGroup(jFrame2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Label2)
                     .addComponent(insert2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jFrame2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jFrame2Layout.createSequentialGroup()
-                        .addGap(3, 3, 3)
-                        .addComponent(Label3))
+                .addGroup(jFrame2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Label3)
                     .addComponent(insert3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jFrame2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jFrame2Layout.createSequentialGroup()
-                        .addGap(3, 3, 3)
-                        .addComponent(Label4))
+                .addGroup(jFrame2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Label4)
                     .addComponent(insert4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jFrame2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jFrame2Layout.createSequentialGroup()
-                        .addGap(3, 3, 3)
-                        .addComponent(Label5))
+                .addGroup(jFrame2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Label5)
                     .addComponent(insert5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jFrame2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jFrame2Layout.createSequentialGroup()
-                        .addGap(3, 3, 3)
-                        .addComponent(Label6))
+                .addGroup(jFrame2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Label6)
                     .addComponent(insert6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jFrame2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jFrame2Layout.createSequentialGroup()
-                        .addGap(3, 3, 3)
-                        .addComponent(Label7))
+                .addGroup(jFrame2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Label7)
                     .addComponent(insert7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
+                .addGroup(jFrame2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Label8)
+                    .addComponent(insert8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(17, 17, 17)
                 .addGroup(jFrame2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jFrame2Layout.createSequentialGroup()
-                        .addGap(3, 3, 3)
-                        .addComponent(Label8))
-                    .addComponent(insert8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jFrame2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Label9)
+                        .addGap(4, 4, 4)
+                        .addComponent(Label9))
                     .addComponent(insert9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
-                .addComponent(FinishInsert, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26))
+                .addGap(46, 46, 46)
+                .addComponent(FinishUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(FinishInsert, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -351,7 +362,6 @@ public class ProjectGUI extends javax.swing.JFrame {
         });
 
         jButton1.setText("Connect");
-        jButton1.setActionCommand("Connect");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -367,8 +377,7 @@ public class ProjectGUI extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jPasswordField1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(246, 246, 246))
         );
         layout.setVerticalGroup(
@@ -423,6 +432,7 @@ public class ProjectGUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jPasswordField1FocusLost
 
+        
 //Establish a connection to the database with the press of the button  
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
@@ -431,6 +441,7 @@ public class ProjectGUI extends javax.swing.JFrame {
             
             database = ConnectToDB.getMySQLConnection("localhost", "proparaskeuastiko", jTextField1.getText(), passwordString);
             JOptionPane.showMessageDialog(this, "Connection Successful!", "Connection Success!", JOptionPane.INFORMATION_MESSAGE);
+            jList1.setListData(ShowTablesQuery());
             jFrame1.setVisible(true);
             dispose(); 
             
@@ -488,6 +499,7 @@ public class ProjectGUI extends javax.swing.JFrame {
         }
       }
     }//GEN-LAST:event_jList1ValueChanged
+    
 
     private void InsertButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InsertButtonActionPerformed
     String selectedValue = jList1.getSelectedValue();
@@ -497,6 +509,8 @@ public class ProjectGUI extends javax.swing.JFrame {
     ResultSetMetaData rsmd = null;
     JLabel[] textlabels;
     JTextField[] textfields;
+    FinishUpdate.setVisible(false);
+    FinishInsert.setVisible(true);
         try {
             //execute query
             statement = database.createStatement();
@@ -512,6 +526,7 @@ public class ProjectGUI extends javax.swing.JFrame {
             textfields = new JTextField[]{insert1,insert2,insert3,insert4,insert5,insert6,insert7,insert8,insert9};
             
             for(int i=1;i<=cols;i++){
+                textfields[i].setText("default");
                 textlabels[i].setText(rsmd.getColumnName(i));
                 textfields[i].setVisible(true);
                 textlabels[i].setVisible(true);
@@ -522,35 +537,175 @@ public class ProjectGUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_InsertButtonActionPerformed
 
-    private void FinishInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FinishInsertActionPerformed
-        String selectedValue = jList1.getSelectedValue();
+    public static boolean isNumeric(String str) {
+    return str != null && str.matches("-?\\d+(\\.\\d+)?"); // Matches integers and decimals
+}
+    
+    private void FinishUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FinishUpdateActionPerformed
+        var table = jList1.getSelectedValue();
+        JLabel[] textlabels = new JLabel[]{Label1,Label2,Label3,Label4,Label5,Label6,Label7,Label8,Label9};
         JTextField[] textfields = new JTextField[]{insert1,insert2,insert3,insert4,insert5,insert6,insert7,insert8,insert9};
         int i=2;
+        DatabaseMetaData metadata;
         
-        String query = "INSERT INTO " + selectedValue + " VALUES" + " (";
-        query = query + "'" + textfields[1].getText() + "'";
+        String query = "UPDATE " + table + " SET ";
+        query = query + textlabels[1].getText() + " = ";
+        query = query + "'" + textfields[1].getText()+ "' ";
 
+        while(textfields[i].isVisible()) {
+            query = query + ", ";
+            query = query + textlabels[i].getText() + " = ";
+            if (isDate(textfields[i].getText()) || isNumeric(textfields[i].getText()))
+                query = query + textfields[i].getText();
+            else
+                query = query + "'" + textfields[i].getText() + "' ";
+            i++;
+        }
+        query = query + " WHERE ";
+        
+        Statement statement;
+        try {
+            metadata = database.getMetaData();
+            ResultSet resultSet = metadata.getPrimaryKeys(null, null, table);
+            resultSet.next();
+            i=1;
+            while(!textlabels[i].getText().equals(resultSet.getString("COLUMN_NAME")) && textfields[i+1].isVisible()){
+                    i++;
+            }
+            if (isDate(textfields[i].getText()) || isNumeric(textfields[i].getText()))
+                query = query + resultSet.getString("COLUMN_NAME") + " = " + textfields[i].getText(); 
+            else
+                query = query + resultSet.getString("COLUMN_NAME") + " = " + "'" + textfields[i].getText() +  "'";
+            System.out.println(query);
+
+            while(resultSet.next()){                
+                i=1;
+                while(!textlabels[i].getText().equals(resultSet.getString("COLUMN_NAME")) && textfields[i+1].isVisible()){
+                    i++;
+                    System.out.println(query);
+                }
+                if (isDate(textfields[i].getText()) || isNumeric(textfields[i].getText()))
+                    query = query + " AND " + resultSet.getString("COLUMN_NAME") + " = " + textfields[i].getText(); 
+                else
+                    query = query + " AND " + resultSet.getString("COLUMN_NAME") + " = " + " '" +textfields[i].getText() + "'";
+            }
+            if(query.substring(query.length() - 1).charAt(0) == ',')
+                query = query.substring(0,query.length() - 2);
+            statement = database.createStatement();
+            System.out.println(query);
+            statement.executeUpdate(query);
+            jFrame2.setVisible(false);
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(ProjectGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_FinishUpdateActionPerformed
+
+    private void UpdateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdateButtonActionPerformed
+    int selectedRow = jTable1.getSelectedRow();
+    String selectedValue = jList1.getSelectedValue();
+    
+    DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+    Statement statement = null;
+    ResultSet resultSet = null;
+    ResultSetMetaData rsmd = null;
+    JLabel[] textlabels;
+    JTextField[] textfields;
+    FinishUpdate.setVisible(true);
+    FinishInsert.setVisible(false);
+        try {
+            textlabels = new JLabel[]{Label1,Label2,Label3,Label4,Label5,Label6,Label7,Label8,Label9};
+            textfields = new JTextField[]{insert1,insert2,insert3,insert4,insert5,insert6,insert7,insert8,insert9};
+            
+            statement = database.createStatement();
+            String query = "SELECT * FROM ";
+            query = query + selectedValue; 
+            
+            resultSet = statement.executeQuery(query);
+            rsmd = resultSet.getMetaData();
+            
+            if (selectedRow != -1) {
+                int columnCount = model.getColumnCount();
+                for (int i = 0; i < columnCount; i++) {
+                    Object value = model.getValueAt(selectedRow, i);
+                    System.out.println("Column " + i + ": " + value);
+                    textlabels[i+1].setText(rsmd.getColumnName(i+1));
+                    textfields[i+1].setText( String.valueOf(value));
+                    textfields[i+1].setVisible(true);
+                    textlabels[i+1].setVisible(true);
+                }
+                jFrame2.setVisible(true);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ProjectGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_UpdateButtonActionPerformed
+
+    private void FinishInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FinishInsertActionPerformed
+        JTextField[] textfields = new JTextField[]{insert1,insert2,insert3,insert4,insert5,insert6,insert7,insert8,insert9};
+        String Table = jList1.getSelectedValue();
+        int i=2;
+        Statement statement = null;
+        String query = "INSERT INTO " + Table + " VALUES (" ;
+        
+        query = query + "'" + textfields[1].getText() + "'";
         while(textfields[i].isVisible()) {
             query = query + ", '" +  textfields[i].getText() + "'";
             i++;
         }
         query = query + ")";
-        Statement statement = null;
         try {
             statement = database.createStatement();
+            statement.executeUpdate(query);
+            jFrame2.setVisible(false);
         } catch (SQLException ex) {
             Logger.getLogger(ProjectGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
-        try {
-            System.out.println(query);
-            int Update = statement.executeUpdate(query);
-        } catch (SQLException ex) {
-            Logger.getLogger(ProjectGUI.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        jFrame2.setVisible(false);
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        model.fireTableDataChanged();
+        
+        
     }//GEN-LAST:event_FinishInsertActionPerformed
+
+    private void DeleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeleteButtonActionPerformed
+    int selectedRow = jTable1.getSelectedRow();
+    String Table = jList1.getSelectedValue();
+
+    DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+    DatabaseMetaData metadata;
+    String ColumnTitle;
+    String query = "DELETE FROM " + Table + " WHERE ";
+        try {
+            metadata = database.getMetaData();
+            if (selectedRow != -1) {
+            int columnCount = model.getColumnCount();
+            
+            Object value = model.getValueAt(selectedRow, 0);
+            ColumnTitle = model.getColumnName(0);
+            
+            if(value instanceof Integer || value instanceof String && isDate((String)value))
+                query +=ColumnTitle + " = " + value;
+            else
+                query +=ColumnTitle + " = " + "'" + value+ "'";     
+            
+            for(int i=1;i<columnCount;i++){              
+                value = model.getValueAt(selectedRow, i);
+                ColumnTitle = model.getColumnName(i);
+                if(value instanceof Integer || value instanceof String && isDate((String)value))
+                    query += " AND " +  ColumnTitle + " = " + value;
+                else
+                    query += " AND " +  ColumnTitle + " = " + "'" + value+ "'";
+            }
+        }
+        Statement statement = database.createStatement();
+        System.out.println(query);
+        statement.executeUpdate(query);
+                    
+        } catch (SQLException ex) {
+            Logger.getLogger(ProjectGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_DeleteButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -591,6 +746,7 @@ public class ProjectGUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton DeleteButton;
     private javax.swing.JButton FinishInsert;
+    private javax.swing.JButton FinishUpdate;
     private javax.swing.JButton InsertButton;
     private javax.swing.JLabel Label1;
     private javax.swing.JLabel Label2;
