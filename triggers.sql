@@ -227,40 +227,6 @@ END IF;
 END $
 DELIMITER ;
 
--- 3.1.2.2 ---------------------------------------------------------------
-DELIMITER $
-CREATE TRIGGER evaluation
-BEFORE UPDATE ON applies
-FOR EACH ROW
-BEGIN
-	DECLARE state ENUM ('active', 'canceled', 'finished');
-    DECLARE grade1_result INT;
-	DECLARE grade2_result INT;
-        
-
-	
-	if(OLD.application_status != 'canceled')
-	THEN
-		IF(OLD.grade1 = 0)
-        THEN
-			CALL auto_grading(NEW.employee,grade1_result);
-            set NEW.grade1 = grade1_result;
-        END IF;
-        
-		IF(OLD.grade2 = 0)
-        THEN
-			CALL auto_grading(NEW.employee,grade2_result);
-            set NEW.grade2 = grade2_result;
-        END IF;
-        
-        SET NEW.total_grade = (NEW.grade1 + NEW.grade2) / 2;
-        
-	ELSE
-		SET NEW.total_grade = 0;
-	END IF;
-END$
-DELIMITER ;
-
 -- 3.1.4.3 --------------------------------------------
 DELIMITER $
 CREATE TRIGGER cancel_enable_prevention

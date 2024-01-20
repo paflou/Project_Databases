@@ -2,7 +2,10 @@ DROP PROCEDURE IF EXISTS auto_grading;
 DROP PROCEDURE IF EXISTS result_extraction;
 DROP PROCEDURE IF EXISTS evaluators_grade;
 DROP PROCEDURE IF EXISTS application_handler;
+DROP PROCEDURE IF EXISTS final_grading;
 
+
+-- 3.1.3.1 -----------------------------------------------------------------------------
 DELIMITER $
 CREATE PROCEDURE auto_grading(
 candidate varchar(30), OUT grade int)
@@ -61,7 +64,6 @@ BEGIN
 END$
 DELIMITER ;
 
--- 3.1.3.1 -----------------------------------------------------------------------------
 DELIMITER $
 CREATE PROCEDURE evaluators_grade(
 evaluator varchar(30), employee_username varchar(30), job int, OUT grade int)
@@ -173,6 +175,46 @@ call application_handler('Alte1970', 2,'a');
 
 -- 3.1.3.3-----------------------------------------------------------------------------------
 DELIMITER $
+CREATE PROCEDURE final_grading (
+candidate VARCHAR(30), job INT , status ENUM ('active', 'canceled', 'finished'))
+BEGIN
+    DECLARE grade1_result INT;
+	DECLARE grade2_result INT;
+	
+    select grade1, grade2 INTO grade1_result, grade2_result
+    FROM applies
+    WHERE  candidate = employee AND job_id = job AND status = application_status;
+    
+	if(status != 'canceled')
+	THEN
+		IF(grade1_result = -1)
+        THEN
+			CALL auto_grading(candidate,grade1_result);
+            UPDATE applies 
+            SET grade1 = grade1_result
+            WHERE candidate = employee AND job = job_id AND application_status = status;
+        END IF;
+        
+		IF(grade2_result = -1)
+        THEN
+			CALL auto_grading(candidate,grade2_result);
+            UPDATE applies 
+            SET grade2 = grade2_result
+            WHERE candidate = employee AND job = job_id AND application_status = status;        
+		END IF;
+        
+		UPDATE applies 
+        SET total_grade = (grade1_result + grade2_result) /  2
+		WHERE candidate = employee AND job = job_id AND application_status = status;        
+	END IF;
+END$
+DELIMITER ;
+/*
+select * from applies where job_id =1;
+call final_grading("Alte1970",1,"active");
+*/
+
+DELIMITER $
 CREATE PROCEDURE result_extraction(
 job int, OUT Results varchar(30))
 BEGIN
@@ -180,9 +222,7 @@ BEGIN
     DECLARE candidate varchar(30);
 	DECLARE state ENUM ('active', 'canceled', 'finished');
     DECLARE winner varchar(30);
-    DECLARE grade_1 int;
-    DECLARE grade_2 int;
-    DECLARE grade int;
+    DECLARE grade INT;
     DECLARE evaluator1 varchar(30);
     DECLARE evaluator2 varchar(30);
     
@@ -206,10 +246,8 @@ BEGIN
         FROM job
         WHERE id =job;
         
-		UPDATE applies
-		SET total_grade = total_grade
-		WHERE employee = candidate AND job_id = job;
-	
+        call final_grading(candidate, job, state);
+        
 		SELECT total_grade INTO grade
         FROM applies
         WHERE employee = candidate AND job_id = job;
@@ -230,7 +268,7 @@ BEGIN
 	WHERE total_grade = (
     SELECT MAX(total_grade)
     FROM applies
-    WHERE job_id = job
+    WHERE job_id = job AND application_status = 'active'
 	)
 	ORDER BY insertion_time DESC limit 0,1;
 
@@ -247,4 +285,5 @@ select * from applications_history;
 call result_extraction(1,@res);
 select @res; 
 */
+
 
