@@ -42,13 +42,13 @@ BEGIN
     
     select count(*) into applications
     from applies
-    where cand_usrname = new.cand_usrname AND application_status = 'active';
+    where employee = new.employee AND application_status = 'active';
     
     select job.start_date into job_start
     from job
     where job.id = new.job_id;
     
-	IF(applications >= 3 OR DATEDIFF(job_start, DATE( NOW() ) ) > 15)
+	IF(applications >= 3 OR DATEDIFF(job_start, DATE( NOW() ) ) < 15)
     THEN
 		SIGNAL SQLSTATE '45000'        
 		SET MESSAGE_TEXT = 'ERROR: Employee cannot apply for this position ';
@@ -230,7 +230,7 @@ DELIMITER ;
 -- 3.1.2.2 ---------------------------------------------------------------
 DELIMITER $
 CREATE TRIGGER evaluation
-BEFORE UPDATE ON application_eval
+BEFORE UPDATE ON applies
 FOR EACH ROW
 BEGIN
 	DECLARE state ENUM ('active', 'canceled', 'finished');
@@ -261,6 +261,7 @@ BEGIN
 END$
 DELIMITER ;
 
+-- 3.1.4.3 --------------------------------------------
 DELIMITER $
 CREATE TRIGGER cancel_enable_prevention
 BEFORE UPDATE ON applies
@@ -276,7 +277,7 @@ BEGIN
 
     select count(*) into applications
     from applies
-    where cand_usrname = new.cand_usrname;
+    where employee = new.employee;
 
     
 	IF(applications >= 3 AND new.application_status = 'active')
@@ -307,24 +308,3 @@ select * from applies;
 */
 
 
-
-
- -- PROBABLY NOT NEEDED
-DELIMITER $
-CREATE TRIGGER auto_applies
-BEFORE INSERT ON application_eval
-FOR EACH ROW
-BEGIN
-	DECLARE flag int;
-    
-    SELECT job_id INTO flag
-    FROM applies
-    WHERE new.employee = cand_usrname AND applies.job_id = new.job_id;
-    
-    IF ( flag IS NULL )
-	THEN
-		INSERT INTO applies VALUES
-        (new.employee, new.job_id, new.application_status, NOW());
-    END IF;
-END $
-DELIMITER ;

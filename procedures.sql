@@ -58,7 +58,6 @@ BEGIN
 	THEN
 		set grade = grade + 1;
     END IF;
-    
 END$
 DELIMITER ;
 
@@ -70,13 +69,13 @@ BEGIN
 	DECLARE grade_out int;
     
     SELECT grade1 INTO grade_out
-    FROM application_eval
+    FROM applies 
     INNER JOIN job ON job_id = id
     WHERE evaluator_1 = evaluator AND employee = employee_username AND job_id = job;
     
     IF grade_out IS NULL THEN
 		SELECT grade2 INTO grade_out
-		FROM application_eval
+		FROM applies
 		INNER JOIN job ON job_id = id
 		WHERE evaluator_2 = evaluator AND employee = employee_username AND job_id = job;
 	END IF;
@@ -94,9 +93,9 @@ DELIMITER ;
 -- TEST --
 /*
 select * from job;
+select * from applies;
 call evaluators_grade('john_doe', 'Alte1970', 1, @res);
 select @res;
-select * from application_eval;
 */
 
 -- 3.1.3.2 --------------------------------------------------------------------------------
@@ -132,13 +131,13 @@ BEGIN
                         LIMIT 0,1)
 			WHERE id = job;
 		END IF;
-	INSERT INTO applies VALUES(employee_username, job, DEFAULT, NOW());
+	INSERT INTO applies VALUES(employee_username, job, DEFAULT, NOW(), NULL, NULL, NULL);
 
     ELSEIF operation = 'c' THEN
-		IF EXISTS(SELECT cand_usrname FROM applies WHERE cand_usrname = employee_username AND job_id = job AND application_status = 'active') THEN
+		IF EXISTS(SELECT employee FROM applies WHERE employee = employee_username AND job_id = job AND application_status = 'active') THEN
 			UPDATE applies
             SET application_status = 'canceled'
-            WHERE cand_usrname = employee_username AND job_id = job AND application_status = 'active';
+            WHERE employee = employee_username AND job_id = job AND application_status = 'active';
 		    
         ELSE 
 			SIGNAL SQLSTATE '45000'        
@@ -146,10 +145,10 @@ BEGIN
 		END IF;
 	
     ELSEIF operation = 'a' THEN
-		IF EXISTS(SELECT cand_usrname FROM applies WHERE cand_usrname = employee_username AND job_id = job AND application_status = 'canceled') THEN
+		IF EXISTS(SELECT employee FROM applies WHERE employee = employee_username AND job_id = job AND application_status = 'canceled') THEN
 			UPDATE applies
             SET application_status = 'active'
-            WHERE cand_usrname = employee_username AND job_id = job AND application_status = 'canceled';
+            WHERE employee = employee_username AND job_id = job AND application_status = 'canceled';
 		ELSE 
 			SIGNAL SQLSTATE '45000'        
 			SET MESSAGE_TEXT = 'The application doesnt exist or employee already has active application for this position ';
@@ -158,21 +157,20 @@ BEGIN
 		SIGNAL SQLSTATE '45000'        
 		SET MESSAGE_TEXT = 'Wrong input! ';
     END IF;
-    
-	select 'Operation success! ';
+	select 'Operation success! ' ;
 END$
 DELIMITER ;
-
-/* TEST FOR 3.1.3.2
+/*
+-- TEST FOR 3.1.3.2
 delete from applies;
 select * from applies;
 select * from job;
-INSERT INTO application_eval VALUES ('Alte1970',2,'active',DEFAULT,DEFAULT,DEFAULT);
+INSERT INTO applies VALUES ('Alte1970',2,'active',NOW(), DEFAULT,DEFAULT,DEFAULT);
 call application_handler('Alte1970', 2,'i');
 call application_handler('Alte1970', 2,'c');
 call application_handler('Alte1970', 2,'a');
-call application_handler('Alte1970', 12,'c');
 */
+
 -- 3.1.3.3-----------------------------------------------------------------------------------
 DELIMITER $
 CREATE PROCEDURE result_extraction(
@@ -189,7 +187,7 @@ BEGIN
     DECLARE evaluator2 varchar(30);
     
 	DECLARE bcursor CURSOR FOR
-    SELECT cand_usrname FROM applies
+    SELECT employee FROM applies
     where job_id = job;
     
     DECLARE CONTINUE HANDLER FOR NOT FOUND SET flag=1;
@@ -202,18 +200,18 @@ BEGIN
     DO       
         select application_status into state
         from applies
-        where cand_usrname = candidate AND job_id = job;
+        where employee = candidate AND job_id = job;
         
         SELECT evaluator_1, evaluator_2 INTO evaluator1, evaluator2
         FROM job
         WHERE id =job;
         
-		UPDATE application_eval
+		UPDATE applies
 		SET total_grade = total_grade
 		WHERE employee = candidate AND job_id = job;
 	
 		SELECT total_grade INTO grade
-        FROM application_eval
+        FROM applies
         WHERE employee = candidate AND job_id = job;
         
         IF( grade IS NULL ) THEN 
@@ -228,25 +226,25 @@ BEGIN
 	CLOSE bcursor;
 
 	SELECT employee INTO winner
-	FROM application_eval
-	INNER JOIN applies ON applies.job_id = application_eval.job_id
+	FROM applies
 	WHERE total_grade = (
     SELECT MAX(total_grade)
-    FROM application_eval
+    FROM applies
+    WHERE job_id = job
 	)
 	ORDER BY insertion_time DESC limit 0,1;
 
     set Results = winner;
     
-     DELETE FROM application_eval WHERE job_id = job;
      DELETE FROM applies WHERE job_id = job;
 END$
 DELIMITER ;
 
-/* TEST FOR 3.1.3.3
+/*
+ -- TEST FOR 3.1.3.3
 select * from applies;
-select * from application_eval;
 select * from applications_history;
-call result_extraction(2,@res);
-select @res;
+call result_extraction(1,@res);
+select @res; 
 */
+

@@ -4,7 +4,6 @@ USE proparaskeuastiko;
 -- Tables with constraints
 DROP TABLE IF EXISTS applications_history;
 DROP TABLE IF EXISTS requires;
-DROP TABLE IF EXISTS application_eval;
 DROP TABLE IF EXISTS applies;
 DROP TABLE IF EXISTS project;
 DROP TABLE IF EXISTS languages;
@@ -152,14 +151,17 @@ ON DELETE CASCADE ON UPDATE CASCADE
 
 -- applies ---------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS applies(
-cand_usrname varchar(30) NOT NULL,
+employee varchar(30) NOT NULL,
 job_id int(11) NOT NULL,
 application_status ENUM ('active', 'canceled', 'finished') DEFAULT 'active',
-insertion_time DATETIME,
+insertion_time DATETIME DEFAULT NOW(),
+grade1 int DEFAULT -1,
+grade2 int DEFAULT -1,
+total_grade int DEFAULT 0,
 
-PRIMARY KEY(cand_usrname, job_id,application_status),
+PRIMARY KEY(employee, job_id,application_status),
 CONSTRAINT applies_con_1
-FOREIGN KEY (cand_usrname)
+FOREIGN KEY (employee)
 REFERENCES employee(username)
 ON DELETE CASCADE ON UPDATE CASCADE,
 CONSTRAINT applies_con_2
@@ -217,23 +219,6 @@ PRIMARY KEY (username),
 CONSTRAINT dba_con
 FOREIGN KEY (username)
 REFERENCES user(username)
-ON DELETE CASCADE ON UPDATE CASCADE
-);
--- APPLICATION EVALUATION -----------------------------------------------
-CREATE TABLE IF NOT EXISTS application_eval(
-employee varchar(30) NOT NULL,
-job_id int NOT NULL,
-application_status ENUM ('active', 'canceled', 'finished'),
-grade1 int DEFAULT -1,
-grade2 int DEFAULT -1,
-total_grade int DEFAULT 0,
-
-PRIMARY KEY (employee,job_id,application_status),
-CONSTRAINT JOB
-FOREIGN KEY (job_id)
-REFERENCES job(id),
-FOREIGN KEY (employee)
-REFERENCES employee(username)
 ON DELETE CASCADE ON UPDATE CASCADE
 );
 
