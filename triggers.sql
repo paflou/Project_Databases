@@ -31,30 +31,6 @@ SET NEW.num = COALESCE(max_num, 0) + 1;
 END $
 DELIMITER ;
 
--- 3.1.4.2 ----------------------------------------------
-DELIMITER $
-CREATE TRIGGER Application_Status
-BEFORE INSERT ON applies
-FOR EACH ROW
-BEGIN
-	DECLARE applications int;
-    DECLARE job_start date;
-    
-    select count(*) into applications
-    from applies
-    where employee = new.employee AND application_status = 'active';
-    
-    select job.start_date into job_start
-    from job
-    where job.id = new.job_id;
-    
-	IF(applications >= 3 OR DATEDIFF(job_start, DATE( NOW() ) ) < 15)
-    THEN
-		SIGNAL SQLSTATE '45000'        
-		SET MESSAGE_TEXT = 'ERROR: Employee cannot apply for this position ';
-	END IF;
-END $
-DELIMITER ;
 
 				/* ta triggers gia to erotima 3.1.4.1.*/
 
@@ -224,6 +200,31 @@ INSERT INTO log (changes, changed_tables, change_time, username)
 VALUES('UPDATE', 'degree', now(), t_username);
 END IF;
 
+END $
+DELIMITER ;
+
+-- 3.1.4.2 ----------------------------------------------
+DELIMITER $
+CREATE TRIGGER Application_Status
+BEFORE INSERT ON applies
+FOR EACH ROW
+BEGIN
+	DECLARE applications int;
+    DECLARE job_start date;
+    
+    select count(*) into applications
+    from applies
+    where employee = new.employee AND application_status = 'active';
+    
+    select job.start_date into job_start
+    from job
+    where job.id = new.job_id;
+    
+	IF(applications >= 3 OR DATEDIFF(job_start, DATE( NOW() ) ) < 15)
+    THEN
+		SIGNAL SQLSTATE '45000'        
+		SET MESSAGE_TEXT = 'ERROR: Employee cannot apply for this position ';
+	END IF;
 END $
 DELIMITER ;
 

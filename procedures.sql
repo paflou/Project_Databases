@@ -205,7 +205,7 @@ BEGIN
         
 		UPDATE applies 
         SET total_grade = (grade1_result + grade2_result) /  2
-		WHERE candidate = employee AND job = job_id AND application_status = status;        
+		WHERE candidate = employee AND job = job_id AND application_status = status;
 	END IF;
 END$
 DELIMITER ;
