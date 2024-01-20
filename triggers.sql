@@ -294,7 +294,7 @@ BEGIN
 END$
 DELIMITER ;
 
-/*
+/* TEST FOR
 INSERT INTO job VALUES
 (NULL, '2023-01-15', 50000.00, 'IT Support Specialist', 'Athens', 'john_doe', 'alice_smith', '2023-01-05 08:00:00', '2024-01-15');
 select * from job;
@@ -309,7 +309,7 @@ select * from applies;
 
 
 
-/* -- PROBABLY NOT NEEDED
+ -- PROBABLY NOT NEEDED
 DELIMITER $
 CREATE TRIGGER auto_applies
 BEFORE INSERT ON application_eval
@@ -328,5 +328,3 @@ BEGIN
     END IF;
 END $
 DELIMITER ;
-
-*/

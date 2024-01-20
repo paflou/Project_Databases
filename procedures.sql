@@ -163,7 +163,7 @@ BEGIN
 END$
 DELIMITER ;
 
-/*
+/* TEST FOR 3.1.3.2
 delete from applies;
 select * from applies;
 select * from job;
@@ -227,7 +227,7 @@ BEGIN
 	END WHILE;
 	CLOSE bcursor;
 
-	SELECT employee INTO winner 
+	SELECT employee INTO winner
 	FROM application_eval
 	INNER JOIN applies ON applies.job_id = application_eval.job_id
 	WHERE total_grade = (
@@ -243,7 +243,7 @@ BEGIN
 END$
 DELIMITER ;
 
-/*
+/* TEST FOR 3.1.3.3
 select * from applies;
 select * from application_eval;
 select * from applications_history;

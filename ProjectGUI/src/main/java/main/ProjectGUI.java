@@ -542,7 +542,8 @@ public class ProjectGUI extends javax.swing.JFrame {
 }
     
     private void FinishUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FinishUpdateActionPerformed
-        var table = jList1.getSelectedValue();
+        System.out.println("This doesnt work yet!");
+        /*        var table = jList1.getSelectedValue();
         JLabel[] textlabels = new JLabel[]{Label1,Label2,Label3,Label4,Label5,Label6,Label7,Label8,Label9};
         JTextField[] textfields = new JTextField[]{insert1,insert2,insert3,insert4,insert5,insert6,insert7,insert8,insert9};
         int i=2;
@@ -599,7 +600,7 @@ public class ProjectGUI extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(ProjectGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+        */
     }//GEN-LAST:event_FinishUpdateActionPerformed
 
     private void UpdateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdateButtonActionPerformed

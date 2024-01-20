@@ -311,12 +311,6 @@ VALUES
 ('mark_smith', 5, 'finished');
 
 
-/*
-SELECT * FROM application_eval;
-select * from applications_history;
-CALL result_extraction(1,@res);
-select @res;
-*/
 
 LOAD DATA INFILE "myFile0.csv" INTO TABLE applications_history
 FIELDS TERMINATED BY ','

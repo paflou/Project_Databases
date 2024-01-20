@@ -1,7 +1,5 @@
-#DROP DATABASE IF EXISTS proparaskeuastiko;
 CREATE DATABASE IF NOT EXISTS proparaskeuastiko;
 USE proparaskeuastiko;
-#Drop database proparaskeuastiko;
 
 -- Tables with constraints
 DROP TABLE IF EXISTS applications_history;
@@ -91,7 +89,7 @@ REFERENCES employee(username)
 ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS project(		#to num den leitourgei sosta, diabase perigrafh.Eftaksa trigger pou to lunei ayto.
+CREATE TABLE IF NOT EXISTS project(	
 candid varchar(30) DEFAULT 'unknown' NOT NULL,
 num tinyint(4) NOT NULL,
 descr text  NOT NULL,
@@ -197,7 +195,7 @@ FOREIGN KEY (subject_title)
 REFERENCES subject(title)
 ON DELETE CASCADE ON UPDATE CASCADE
 );
--- TA EVAL STO APPLIES
+
 
 CREATE TABLE IF NOT EXISTS applications_history(
 evaluator_1 varchar(30),
@@ -221,25 +219,22 @@ FOREIGN KEY (username)
 REFERENCES user(username)
 ON DELETE CASCADE ON UPDATE CASCADE
 );
-
 -- APPLICATION EVALUATION -----------------------------------------------
 CREATE TABLE IF NOT EXISTS application_eval(
-#evaluator_1 varchar(30),
-#evaluator_2 varchar(30),
 employee varchar(30) NOT NULL,
 job_id int NOT NULL,
-application_status ENUM ('active', 'canceled', 'finished'),		#την κατάσταση (ολοκληρωμένη) ???  orthografiko gia na tairiazei me csv
+application_status ENUM ('active', 'canceled', 'finished'),
 grade1 int DEFAULT -1,
 grade2 int DEFAULT -1,
 total_grade int DEFAULT 0,
 
 PRIMARY KEY (employee,job_id,application_status),
-
 CONSTRAINT JOB
 FOREIGN KEY (job_id)
-REFERENCES job(id)
+REFERENCES job(id),
+FOREIGN KEY (employee)
+REFERENCES employee(username)
 ON DELETE CASCADE ON UPDATE CASCADE
-
 );
 
 
