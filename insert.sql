@@ -102,7 +102,7 @@ INSERT INTO languages (candid, lang) VALUES
 INSERT INTO languages VALUE
 ('Fortume','GR,EN'),
 ('Yeepy','FR,SP,GR'),
-('Pilve1984','EN,CH,GR'),
+('Pilve1984','EN, CH, GR'),
 ('Alte1970','FR,SP,GR,EN');
 
 
