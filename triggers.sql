@@ -228,6 +228,26 @@ BEGIN
 END $
 DELIMITER ;
 
+/*
+-- make a job less than 15 days away
+INSERT INTO job VALUES 
+(NULL, DATE_ADD(DATE(NOW()), INTERVAL 14 DAY), 50000.00, 'TEST', 'TEST', 'john_doe', 'alice_smith', '2025-01-05 08:00:00', '2025-02-01');
+-- see the job id
+select id from job order by id DESC limit 1;
+
+-- try to insert an application for this job
+INSERT INTO applies VALUES
+('mark_smith', 17, DEFAULT, NOW(), 15, 18, DEFAULT);
+
+-- see how many active applicaitons hunitesige has 
+select employee, job_id, application_status from applies where employee = "Hunitesige";
+-- try to insert another
+INSERT INTO applies VALUES
+('Hunitesige', 8, DEFAULT, NOW(), 15, 18, DEFAULT);
+*/
+
+
+
 -- 3.1.4.3 --------------------------------------------
 DELIMITER $
 CREATE TRIGGER cancel_enable_prevention
@@ -244,7 +264,7 @@ BEGIN
 
     select count(*) into applications
     from applies
-    where employee = new.employee;
+    where employee = new.employee AND application_status = 'active';
 
     
 	IF(applications >= 3 AND new.application_status = 'active')
@@ -261,17 +281,32 @@ BEGIN
     END IF;
 END$
 DELIMITER ;
+/*
+ -- TEST FOR 3.1.4.3
+ -- create a job
+ INSERT INTO job VALUES
+(NULL, '2024-03-11', 50000.00, 'IT Support Specialist', 'Athens', 'john_doe', 'alice_smith', '2023-01-05 08:00:00', '2024-01-15');
 
-/* TEST FOR
-INSERT INTO job VALUES
-(NULL, '2023-01-15', 50000.00, 'IT Support Specialist', 'Athens', 'john_doe', 'alice_smith', '2023-01-05 08:00:00', '2024-01-15');
-select * from job;
+-- see the job_id
+select id from job order by id DESC limit 1;
+-- Make an application for this job
+call application_handler('Alte1970', 18,'i'); 
 
-call application_handler('Alte1970', 17,'i');
-call application_handler('Alte1970', 17,'c');
-call application_handler('Alte1970', 3,'a');
-call application_handler('emily_wilson', 2,'a');
-select * from applies;
+-- make it so the job starts in less than 10 days
+update job
+SET start_date = DATE_ADD(DATE(NOW()), INTERVAL 9 DAY)
+WHERE id =18;
+-- try to cancel his application
+call application_handler('Alte1970', 18,'c'); 
+
+-- see active applications for x employee
+select employee, job_id, application_status from applies where employee = "Hunitesige";
+-- cancel his third application
+call application_handler('Hunitesige', 4,'c');
+-- make a new one
+call application_handler('Hunitesige', 7,'i');
+-- try to activate his canceled application
+call application_handler('Hunitesige', 4,'a');
 */
 
 

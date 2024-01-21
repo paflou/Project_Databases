@@ -64,12 +64,12 @@ INSERT INTO evaluator (username, exp_years, firm) VALUES
 # select * from evaluator;
 
 INSERT INTO evaluator VALUE
-('Ancingingen',1,'777777777'),
-('johnnyboy',3,'888888888'),
-('jacko',1,'999999999'),
-('Mucas1940',6,'888888888'),
-('Alke1996',2,'777777777'),
-('DreamyCoder',11,'888888888');
+('Ancingingen',1,'111111111'),
+('johnnyboy',3,'222222222'),
+('jacko',1,'333333333'),
+('Mucas1940',6,'444444444'),
+('Alke1996',2,'555555555'),
+('DreamyCoder',11,'666666666');
 
 
 
@@ -147,11 +147,6 @@ INSERT INTO job (id, start_date, salary, position, edra, evaluator_1, evaluator_
 (DEFAULT, '2025-07-12', 58000.00, 'Sales Representative', 'Arizona', 'Ancingingen', 'johnnyboy', '2025-07-05 09:45:00', '2025-09-25');
 #select * from job;
 
--- TEST FOR TRIGGER 3.1.2.1
-#INSERT INTO applies VALUES
-#('Tord2003',2, DEFAULT,NOW()),
-#('Tord2003',3, DEFAULT,NOW()),
-#('Tord2003',4, DEFAULT,NOW());
 
 INSERT INTO degree (titlos, idryma, bathmida) VALUES
 ('Bachelor of Computer Science and Math', 'University of Athens', 'BSc'),

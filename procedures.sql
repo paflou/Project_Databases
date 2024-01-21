@@ -97,11 +97,14 @@ DELIMITER ;
 
 -- TEST --
 /*
-select * from job;
-select * from applies;
+select evaluator_1, employee, job_id , grade1
+from job
+inner join applies 
+on job_id = id AND employee = 'Alte1970';
 call evaluators_grade('john_doe', 'Alte1970', 1, @res);
 select @res;
 */
+
 
 -- 3.1.3.2 --------------------------------------------------------------------------------
 DELIMITER $
@@ -110,6 +113,7 @@ employee_username varchar(30), job int, operation char(1))
 BEGIN
 	DECLARE eval1 varchar(30);
     DECLARE eval2 varchar(30);
+    declare firm1 int;
     
 	IF operation = 'i' THEN
 		SELECT evaluator_1, evaluator_2 INTO eval1, eval2
@@ -117,26 +121,31 @@ BEGIN
         WHERE id = job;
         
         IF eval1 IS NULL THEN
+			SELECT firm INTO firm1
+            FROM evaluator
+            WHERE username = eval2;
+            
 			UPDATE job
 			SET evaluator_1 = (SELECT evaluator.username FROM evaluator 
-						INNER JOIN job ON job.evaluator = evaluator.username
-                        inner join evaluator AS parent_eval ON job.evaluator = parent_eval.username
-                        WHERE evaluator.firm = parent_eval.firm
+                        WHERE evaluator.firm = firm1 AND username != eval2
                         ORDER BY RAND()
                         LIMIT 0,1)
             WHERE id = job;
 		END IF;
+        SELECT eval2;
 		IF eval2 IS NULL THEN
+			SELECT firm INTO firm1
+            FROM evaluator
+            WHERE username = eval1;
+            
 			UPDATE job
 			SET evaluator_2 = (SELECT evaluator.username FROM evaluator 
-						INNER JOIN job ON job.evaluator = evaluator.username
-						inner join evaluator AS parent_eval ON job.evaluator = parent_eval.username
-                        WHERE evaluator.firm = parent_eval.firm
+                        WHERE evaluator.firm = firm1 AND username != eval1
 						ORDER BY RAND()
                         LIMIT 0,1)
 			WHERE id = job;
 		END IF;
-	INSERT INTO applies VALUES(employee_username, job, DEFAULT, NOW(), NULL, NULL, NULL);
+	INSERT INTO applies VALUES(employee_username, job, DEFAULT, NOW(), DEFAULT, DEFAULT, DEFAULT);
 
     ELSEIF operation = 'c' THEN
 		IF EXISTS(SELECT employee FROM applies WHERE employee = employee_username AND job_id = job AND application_status = 'active') THEN
@@ -165,15 +174,26 @@ BEGIN
 	select 'Operation success! ' ;
 END$
 DELIMITER ;
+
 /*
 -- TEST FOR 3.1.3.2
-delete from applies;
-select * from applies;
-select * from job;
-INSERT INTO applies VALUES ('Alte1970',2,'active',NOW(), DEFAULT,DEFAULT,DEFAULT);
-call application_handler('Alte1970', 2,'i');
-call application_handler('Alte1970', 2,'c');
-call application_handler('Alte1970', 2,'a');
+INSERT INTO job VALUES
+(NULL, '2025-01-15', 50000.00, 'IT Support Specialist', 'Athens', 'john_doe', DEFAULT, '2025-01-05 08:00:00', '2025-02-01');
+select id, evaluator_1, evaluator_2 from job order by id desc limit 1;
+
+select * from applies where employee = "Tord2003";
+call application_handler('Tord2003', 17,'i');
+select * from applies where employee = "Tord2003";
+
+select id, evaluator_1, evaluator_2 from job order by id desc limit 1;
+select firm from evaluator where username = "john_doe" OR username = "Ancingingen";
+call application_handler('Tord2003', 2,'c');
+call application_handler('Tord2003', 2,'a');
+
+call application_handler('Tord2003', 17,'c');
+select * from applies where employee = "Tord2003";
+call application_handler('Tord2003', 17,'a');
+select * from applies where employee = "Tord2003";
 */
 
 -- 3.1.3.3-----------------------------------------------------------------------------------
@@ -281,12 +301,16 @@ BEGIN
 END$
 DELIMITER ;
 
-/*
+
  -- TEST FOR 3.1.3.3
-select * from applies;
-select * from applications_history;
+select * from applies WHERE job_id =1;
+select * from applications_history WHERE job_id =1;
+
 call result_extraction(1,@res);
 select @res; 
+
+select * from applies WHERE job_id =1;
+select * from applications_history WHERE job_id =1;
 */
 
 ############################################MyAdditionsFor 3.1.3.4##############################
