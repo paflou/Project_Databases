@@ -102,7 +102,7 @@ INSERT INTO languages (candid, lang) VALUES
 INSERT INTO languages VALUE
 ('Fortume','GR,EN'),
 ('Yeepy','FR,SP,GR'),
-('Pilve1984','EN, CH, GR'),
+('Pilve1984','EN,CH,GR'),
 ('Alte1970','FR,SP,GR,EN');
 
 
@@ -289,3 +289,13 @@ FIELDS TERMINATED BY ','
 OPTIONALLY ENCLOSED BY '"'
 LINES TERMINATED BY '\r\n'
 IGNORE 1 ROWS;
+
+###################################MY_CHANGE####################
+LOAD DATA INFILE "RandomData (3).csv" INTO TABLE applications_history
+FIELDS TERMINATED BY ','
+ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+IGNORE 1 ROWS;
+####################################END_MYCHANGE################
+# bale to RandomData(3).csv sto ProgramData\MySQL\MySQL Server 8.0\Data\proparaskeuastiko
+

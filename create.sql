@@ -210,6 +210,17 @@ grade int DEFAULT '0' NOT NULL,
 PRIMARY KEY (employee, job_id, application_status)
 );
 
+##################################3.1.3.4 MyPartForIndexes#############################
+#DROP INDEX idx_grade ON applications_history;
+#DROP INDEX idx_evaluator_1 ON applications_history;
+#DROP INDEX idx_evaluator_2 ON applications_history;
+#SHOW INDEXES FROM applications_history;
+
+CREATE INDEX idx_grade On applications_history(grade);
+CREATE INDEX idx_evaluator_1 On applications_history(evaluator_1);
+CREATE INDEX idx_evaluator_2 On applications_history(evaluator_2);
+##################################EndOf 3.1.3.4 MyPartForIndexes########################
+
 CREATE TABLE IF NOT EXISTS dba(
 username varchar(30) NOT NULL,
 start_date date NOT NULL,

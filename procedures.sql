@@ -287,4 +287,47 @@ call result_extraction(1,@res);
 select @res; 
 */
 
+############################################MyAdditionsFor 3.1.3.4##############################
+-- 3.1.3.4.a-----------------------------------------------------------------------
+#DROP PROCEDURE search_a;
 
+DELIMITER $
+CREATE PROCEDURE  search_a(
+IN grade_1 INT, IN grade_2 INT
+ )
+BEGIN
+DECLARE employee_username varchar(30);
+DECLARE job int(11);
+
+SELECT employee, job_id
+FROM applications_history
+WHERE grade > grade_1 AND grade < grade_2;
+END$
+DELIMITER ;
+# CALL search_a(6,13);
+
+-- 3.1.3.4.b---------------------------------------------------------------------
+DELIMITER $
+CREATE PROCEDURE search_b(
+IN evaluator varchar(30)
+)
+BEGIN
+DECLARE employee_username varchar(30);
+DECLARE job int(11); 
+SELECT employee, job_id
+FROM applications_history
+WHERE evaluator_1 = evaluator OR evaluator_2 = evaluator;
+
+END$
+DELIMITER ;
+# CALL search_b('Edee');
+
+# FOR MESURING TIMES OF EXECUTION WITH INDEXES 3.1.3.4
+/*
+set profiling=1;
+CALL search_a(6,13);
+CALL search_b('Edee');
+show profiles;
+*/
+
+############################################EndOF MyAdditionsFor 3.1.3.4#########################
