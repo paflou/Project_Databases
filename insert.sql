@@ -294,7 +294,7 @@ IGNORE 1 ROWS;
 LOAD DATA INFILE "RandomData (3).csv" INTO TABLE applications_history
 FIELDS TERMINATED BY ','
 ENCLOSED BY '"'
-LINES TERMINATED BY '\n'
+LINES TERMINATED BY '\r\n'
 IGNORE 1 ROWS;
 ####################################END_MYCHANGE################
 # bale to RandomData(3).csv sto ProgramData\MySQL\MySQL Server 8.0\Data\proparaskeuastiko

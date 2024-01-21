@@ -3,6 +3,8 @@ DROP PROCEDURE IF EXISTS result_extraction;
 DROP PROCEDURE IF EXISTS evaluators_grade;
 DROP PROCEDURE IF EXISTS application_handler;
 DROP PROCEDURE IF EXISTS final_grading;
+DROP PROCEDURE IF EXISTS search_a;
+DROP PROCEDURE IF EXISTS search_b;
 
 
 -- 3.1.3.1 -----------------------------------------------------------------------------
@@ -289,7 +291,6 @@ select @res;
 
 ############################################MyAdditionsFor 3.1.3.4##############################
 -- 3.1.3.4.a-----------------------------------------------------------------------
-#DROP PROCEDURE search_a;
 
 DELIMITER $
 CREATE PROCEDURE  search_a(
