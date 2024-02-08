@@ -66,6 +66,7 @@ public class ProjectGUI extends javax.swing.JFrame {
         insert7 = new javax.swing.JTextField();
         insert8 = new javax.swing.JTextField();
         insert9 = new javax.swing.JTextField();
+        insert10 = new javax.swing.JTextField();
         Label2 = new javax.swing.JLabel();
         Label1 = new javax.swing.JLabel();
         Label4 = new javax.swing.JLabel();
@@ -75,11 +76,14 @@ public class ProjectGUI extends javax.swing.JFrame {
         Label7 = new javax.swing.JLabel();
         Label8 = new javax.swing.JLabel();
         Label9 = new javax.swing.JLabel();
+        Label10 = new javax.swing.JLabel();
         FinishUpdate = new javax.swing.JButton();
         FinishInsert = new javax.swing.JButton();
         jTextField1 = new javax.swing.JTextField();
         jPasswordField1 = new javax.swing.JPasswordField();
         jButton1 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
 
         jFrame1.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         jFrame1.setVisible(false);
@@ -100,7 +104,7 @@ public class ProjectGUI extends javax.swing.JFrame {
         jLabel2.setAutoscrolls(true);
         jLabel2.setBorder(new javax.swing.border.MatteBorder(null));
 
-        jTable1.setAutoCreateRowSorter(true);
+        jTable1.setAutoscrolls(false);
         jTable1.setShowGrid(true);
         jScrollPane2.setViewportView(jTable1);
 
@@ -176,6 +180,11 @@ public class ProjectGUI extends javax.swing.JFrame {
         jFrame2.setVisible(false);
 
         insert1.setVisible(false);
+        insert1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                insert1ActionPerformed(evt);
+            }
+        });
 
         insert2.setVisible(false);
 
@@ -190,6 +199,13 @@ public class ProjectGUI extends javax.swing.JFrame {
         insert7.setVisible(false);
 
         insert8.setVisible(false);
+
+        insert9.setVisible(false);
+        insert9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                insert9ActionPerformed(evt);
+            }
+        });
 
         insert9.setVisible(false);
 
@@ -220,6 +236,9 @@ public class ProjectGUI extends javax.swing.JFrame {
         Label9.setText("jLabel1");
         Label9.setVisible(false);
 
+        Label10.setText("jLabel1");
+        Label9.setVisible(false);
+
         FinishUpdate.setText("Update");
         FinishUpdate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -238,7 +257,7 @@ public class ProjectGUI extends javax.swing.JFrame {
         jFrame2.getContentPane().setLayout(jFrame2Layout);
         jFrame2Layout.setHorizontalGroup(
             jFrame2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jFrame2Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jFrame2Layout.createSequentialGroup()
                 .addGroup(jFrame2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jFrame2Layout.createSequentialGroup()
                         .addGap(6, 6, 6)
@@ -249,9 +268,13 @@ public class ProjectGUI extends javax.swing.JFrame {
                     .addGroup(jFrame2Layout.createSequentialGroup()
                         .addGap(27, 27, 27)
                         .addGroup(jFrame2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jFrame2Layout.createSequentialGroup()
+                                .addComponent(Label10, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(insert10, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jFrame2Layout.createSequentialGroup()
                                 .addComponent(Label1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
                                 .addComponent(insert1, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jFrame2Layout.createSequentialGroup()
                                 .addComponent(Label2, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -281,9 +304,9 @@ public class ProjectGUI extends javax.swing.JFrame {
                                 .addComponent(Label8, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(insert8, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jFrame2Layout.createSequentialGroup()
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jFrame2Layout.createSequentialGroup()
                                 .addComponent(Label9, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(23, 23, 23)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(insert9, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addGap(1184, 1184, 1184))
         );
@@ -322,13 +345,15 @@ public class ProjectGUI extends javax.swing.JFrame {
                 .addGroup(jFrame2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Label8)
                     .addComponent(insert8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(17, 17, 17)
-                .addGroup(jFrame2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jFrame2Layout.createSequentialGroup()
-                        .addGap(4, 4, 4)
-                        .addComponent(Label9))
-                    .addComponent(insert9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(46, 46, 46)
+                .addGap(18, 18, 18)
+                .addGroup(jFrame2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(insert9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Label9))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jFrame2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(insert10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Label10))
+                .addGap(10, 10, 10)
                 .addComponent(FinishUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(FinishInsert, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -368,6 +393,10 @@ public class ProjectGUI extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setText("username");
+
+        jLabel3.setText("password");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -377,15 +406,21 @@ public class ProjectGUI extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jPasswordField1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel3))
                 .addGap(246, 246, 246))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(110, 110, 110)
+                .addGap(88, 88, 88)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(46, 46, 46)
+                .addGap(24, 24, 24)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 133, Short.MAX_VALUE)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -452,8 +487,6 @@ public class ProjectGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jList1ValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jList1ValueChanged
-    if (!evt.getValueIsAdjusting()) {
-
     String selectedValue = jList1.getSelectedValue();
     
     Statement statement = null;
@@ -484,8 +517,7 @@ public class ProjectGUI extends javax.swing.JFrame {
             model.setColumnIdentifiers(colName);
 
      
-            // Execute a SELECT query for every row in the table
-            // and insert into jTable
+            //insert rows into jTable
             while (resultSet.next()) {
                 // Retrieve data from the result set
                 Object[] row = new Object[cols];
@@ -497,7 +529,7 @@ public class ProjectGUI extends javax.swing.JFrame {
             }   } catch (SQLException ex) {
             Logger.getLogger(ProjectGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
-      }
+
     }//GEN-LAST:event_jList1ValueChanged
     
 
@@ -522,12 +554,19 @@ public class ProjectGUI extends javax.swing.JFrame {
             rsmd = resultSet.getMetaData();
             
             int cols = rsmd.getColumnCount();
-            textlabels = new JLabel[]{Label1,Label2,Label3,Label4,Label5,Label6,Label7,Label8,Label9};
-            textfields = new JTextField[]{insert1,insert2,insert3,insert4,insert5,insert6,insert7,insert8,insert9};
+            textlabels = new JLabel[]{Label1,Label2,Label3,Label4,Label5,Label6,Label7,Label8,Label9,Label10};
+            textfields = new JTextField[]{insert1,insert2,insert3,insert4,insert5,insert6,insert7,insert8,insert9,insert10};
             
+            for(JLabel i : textlabels){
+                i.setVisible(false);
+            }
+            for(JTextField i : textfields){
+                i.setVisible(false);
+            }
             for(int i=1;i<=cols;i++){
-                textfields[i].setText("default");
+                textfields[i].setText("");
                 textlabels[i].setText(rsmd.getColumnName(i));
+                System.out.println(rsmd.getColumnName(i));
                 textfields[i].setVisible(true);
                 textlabels[i].setVisible(true);
             jFrame2.setVisible(true);
@@ -542,25 +581,25 @@ public class ProjectGUI extends javax.swing.JFrame {
 }
     
     private void FinishUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FinishUpdateActionPerformed
-        System.out.println("This doesnt work yet!");
-        /*        var table = jList1.getSelectedValue();
-        JLabel[] textlabels = new JLabel[]{Label1,Label2,Label3,Label4,Label5,Label6,Label7,Label8,Label9};
-        JTextField[] textfields = new JTextField[]{insert1,insert2,insert3,insert4,insert5,insert6,insert7,insert8,insert9};
+        var table = jList1.getSelectedValue();
+        JLabel[] textlabels = new JLabel[]{Label1,Label2,Label3,Label4,Label5,Label6,Label7,Label8,Label9,Label10};
+        JTextField[] textfields = new JTextField[]{insert1,insert2,insert3,insert4,insert5,insert6,insert7,insert8,insert9,insert10};
         int i=2;
         DatabaseMetaData metadata;
         
         String query = "UPDATE " + table + " SET ";
         query = query + textlabels[1].getText() + " = ";
         query = query + "'" + textfields[1].getText()+ "' ";
-
-        while(textfields[i].isVisible()) {
-            query = query + ", ";
-            query = query + textlabels[i].getText() + " = ";
-            if (isDate(textfields[i].getText()) || isNumeric(textfields[i].getText()))
-                query = query + textfields[i].getText();
-            else
-                query = query + "'" + textfields[i].getText() + "' ";
-            i++;
+        while(i<10) {
+            if(textfields[i].isVisible()) {
+                query = query + ", ";
+                query = query + textlabels[i].getText() + " = ";
+                if (isNumeric(textfields[i].getText()))
+                    query = query + textfields[i].getText();
+                else
+                    query = query + "'" + textfields[i].getText() + "' ";
+            }
+        i++;
         }
         query = query + " WHERE ";
         
@@ -596,11 +635,11 @@ public class ProjectGUI extends javax.swing.JFrame {
             System.out.println(query);
             statement.executeUpdate(query);
             jFrame2.setVisible(false);
-            
+            JOptionPane.showMessageDialog(this, "Update Success!", "Update Successful!", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException ex) {
             Logger.getLogger(ProjectGUI.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "Update Unsuccessful!", "Update Unsuccessful!", JOptionPane.ERROR_MESSAGE);
         }
-        */
     }//GEN-LAST:event_FinishUpdateActionPerformed
 
     private void UpdateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdateButtonActionPerformed
@@ -616,8 +655,8 @@ public class ProjectGUI extends javax.swing.JFrame {
     FinishUpdate.setVisible(true);
     FinishInsert.setVisible(false);
         try {
-            textlabels = new JLabel[]{Label1,Label2,Label3,Label4,Label5,Label6,Label7,Label8,Label9};
-            textfields = new JTextField[]{insert1,insert2,insert3,insert4,insert5,insert6,insert7,insert8,insert9};
+            textlabels = new JLabel[]{Label1,Label2,Label3,Label4,Label5,Label6,Label7,Label8,Label9,Label10};
+            textfields = new JTextField[]{insert1,insert2,insert3,insert4,insert5,insert6,insert7,insert8,insert9,insert10};
             
             statement = database.createStatement();
             String query = "SELECT * FROM ";
@@ -628,7 +667,7 @@ public class ProjectGUI extends javax.swing.JFrame {
             
             if (selectedRow != -1) {
                 int columnCount = model.getColumnCount();
-                for (int i = 0; i < columnCount; i++) {
+                for (int i = 0; i <columnCount; i++) {
                     Object value = model.getValueAt(selectedRow, i);
                     System.out.println("Column " + i + ": " + value);
                     textlabels[i+1].setText(rsmd.getColumnName(i+1));
@@ -645,24 +684,34 @@ public class ProjectGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_UpdateButtonActionPerformed
 
     private void FinishInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FinishInsertActionPerformed
-        JTextField[] textfields = new JTextField[]{insert1,insert2,insert3,insert4,insert5,insert6,insert7,insert8,insert9};
+        JTextField[] textfields = new JTextField[]{insert1,insert2,insert3,insert4,insert5,insert6,insert7,insert8,insert9,insert10};
         String Table = jList1.getSelectedValue();
-        int i=2;
         Statement statement = null;
         String query = "INSERT INTO " + Table + " VALUES (" ;
         
-        query = query + "'" + textfields[1].getText() + "'";
-        while(textfields[i].isVisible()) {
-            query = query + ", '" +  textfields[i].getText() + "'";
-            i++;
+        for(var q :textfields) {
+            if(q.isVisible()){
+                System.out.println(q.getText());
+                if("default".equals(q.getText()) || "DEFAULT".equals(q.getText()) || "null".equals(q.getText()) || "NULL".equals(q.getText())){
+                    query = query + q.getText() + ", ";
+                }
+                else if("".equals(q.getText()))
+                    query = query + "NULL, ";
+                else
+                    query = query + "'"+  q.getText() + "', ";
+            }
         }
+        query = query.substring(0,query.length() - 2);
         query = query + ")";
         try {
+            System.out.println(query);
             statement = database.createStatement();
             statement.executeUpdate(query);
+            JOptionPane.showMessageDialog(this, "Insert Successful!", "Your record has been inserted!", JOptionPane.INFORMATION_MESSAGE);
             jFrame2.setVisible(false);
         } catch (SQLException ex) {
             Logger.getLogger(ProjectGUI.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "Insert unsuccessful!", "Your record has NOT been inserted", JOptionPane.ERROR_MESSAGE);
         }
         
         
@@ -673,11 +722,9 @@ public class ProjectGUI extends javax.swing.JFrame {
     String Table = jList1.getSelectedValue();
 
     DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-    DatabaseMetaData metadata;
     String ColumnTitle;
     String query = "DELETE FROM " + Table + " WHERE ";
         try {
-            metadata = database.getMetaData();
             if (selectedRow != -1) {
             int columnCount = model.getColumnCount();
             
@@ -701,12 +748,21 @@ public class ProjectGUI extends javax.swing.JFrame {
         Statement statement = database.createStatement();
         System.out.println(query);
         statement.executeUpdate(query);
-                    
+        JOptionPane.showMessageDialog(this, "Delete Successful!", "The record has been deleted", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException ex) {
             Logger.getLogger(ProjectGUI.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "Delete unsuccessful!", "The record has NOT been deleted", JOptionPane.ERROR_MESSAGE);
         }
 
     }//GEN-LAST:event_DeleteButtonActionPerformed
+
+    private void insert1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insert1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_insert1ActionPerformed
+
+    private void insert9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insert9ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_insert9ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -750,6 +806,7 @@ public class ProjectGUI extends javax.swing.JFrame {
     private javax.swing.JButton FinishUpdate;
     private javax.swing.JButton InsertButton;
     private javax.swing.JLabel Label1;
+    private javax.swing.JLabel Label10;
     private javax.swing.JLabel Label2;
     private javax.swing.JLabel Label3;
     private javax.swing.JLabel Label4;
@@ -760,6 +817,7 @@ public class ProjectGUI extends javax.swing.JFrame {
     private javax.swing.JLabel Label9;
     private javax.swing.JButton UpdateButton;
     private javax.swing.JTextField insert1;
+    private javax.swing.JTextField insert10;
     private javax.swing.JTextField insert2;
     private javax.swing.JTextField insert3;
     private javax.swing.JTextField insert4;
@@ -771,7 +829,9 @@ public class ProjectGUI extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JFrame jFrame1;
     private javax.swing.JFrame jFrame2;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JList<String> jList1;
     private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JScrollPane jScrollPane2;
