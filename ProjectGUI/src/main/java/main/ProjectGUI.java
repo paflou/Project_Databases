@@ -488,7 +488,7 @@ public class ProjectGUI extends javax.swing.JFrame {
 
     private void jList1ValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jList1ValueChanged
     String selectedValue = jList1.getSelectedValue();
-    
+
     Statement statement = null;
     ResultSet resultSet = null;
     ResultSetMetaData rsmd = null;
@@ -664,6 +664,13 @@ public class ProjectGUI extends javax.swing.JFrame {
             
             resultSet = statement.executeQuery(query);
             rsmd = resultSet.getMetaData();
+            
+            for(JLabel i : textlabels){
+                i.setVisible(false);
+            }
+            for(JTextField i : textfields){
+                i.setVisible(false);
+            }
             
             if (selectedRow != -1) {
                 int columnCount = model.getColumnCount();
