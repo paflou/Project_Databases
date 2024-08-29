@@ -1,5 +1,3 @@
-To compile and run the project hosted at [paflou/Project_Databases](https://github.com/paflou/Project_Databases), follow these steps:
-
 ### 1. **Set Up the MySQL Database**
 
    1. **Install MySQL**: If you don't have MySQL installed, download and install it from [MySQL's official website](https://dev.mysql.com/downloads/mysql/).
